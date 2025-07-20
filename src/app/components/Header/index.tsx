@@ -2,7 +2,7 @@
 
 export function Header() {
   return (
-    <header className="bg-gray-800 text-white p-4">
+    <header className="bg-gray-800 text-white p-4 h-16">
       <h1 className="text-2xl font-bold">My Website</h1>
     </header>
   );
