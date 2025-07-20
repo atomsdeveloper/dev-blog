@@ -7,10 +7,11 @@ import { Suspense } from "react";
 import { Header } from "./components/Header";
 import { SpinLoader } from "./components/SpinLoader";
 import { PostsList } from "./components/PostsList";
+import { Container } from "./components/Container";
 
 export default async function Home() {
   return (
-    <>
+    <Container>
       <Header />
       <Suspense
         fallback={
@@ -19,6 +20,6 @@ export default async function Home() {
       >
         <PostsList />
       </Suspense>
-    </>
+    </Container>
   );
 }
