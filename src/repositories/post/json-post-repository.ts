@@ -18,8 +18,19 @@ const JSON_POSTS_FILE_PATH = resolve(
   "seed",
   "posts.json"
 ); // Return a string path to the posts data file
+const SIMULATE_AWAIT_PROMISE_IN_MS = 2500; // Simulate a delay for async operations
 
 export class JsonPostRepository implements PostRepository {
+  private async simulateAwait() {
+    if (SIMULATE_AWAIT_PROMISE_IN_MS <= 0) {
+      return;
+    }
+
+    await new Promise((resolve) =>
+      setTimeout(resolve, SIMULATE_AWAIT_PROMISE_IN_MS)
+    );
+  }
+
   private async readFromDisk(): Promise<PostModel[]> {
     try {
       const JSON_CONTENT = await readFile(JSON_POSTS_FILE_PATH, "utf-8");
@@ -36,6 +47,7 @@ export class JsonPostRepository implements PostRepository {
   }
 
   async findAll(): Promise<PostModel[]> {
+    await this.simulateAwait(); // Simulate delay for async operation
     try {
       const posts = await this.readFromDisk();
       return posts as PostModel[];
@@ -45,6 +57,7 @@ export class JsonPostRepository implements PostRepository {
   }
 
   async findById(id: string): Promise<PostModel> {
+    await this.simulateAwait(); // Simulate delay for async operation
     try {
       const posts = await this.findAll();
       const post = posts.find((post) => post.id === id);
