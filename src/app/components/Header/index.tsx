@@ -2,8 +2,12 @@
 
 export function Header() {
   return (
-    <header className="bg-gray-800 text-white p-4 h-16">
-      <h1 className="text-2xl font-bold">My Website</h1>
+    <header>
+      <h1 className="text-4xl/normal font-extrabold py-8 sm:text-5xl/normal sm:py-10 md:text-6xl/normal md:py-12 lg:text-7xl/normal lg:py-12">
+        <a href="#" className="">
+          Dev Blog
+        </a>
+      </h1>
     </header>
   );
 }
