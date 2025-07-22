@@ -6,7 +6,7 @@
   "terminal.integrated.fontSize": 12.2,
   "editor.glyphMargin": false,
   "workbench.activityBar.location": "default",
-  "editor.lineNumbers": "off",
+  "editor.lineNumbers": "on",
   "files.eol": "\n", // Final de linha sempre será LF
   "workbench.editor.labelFormat": "short",
   "editor.tabSize": 2,
