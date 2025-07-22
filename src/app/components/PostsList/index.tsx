@@ -2,8 +2,10 @@
 
 // Repositories
 import { jsonPostRepository } from "@/repositories/post";
+
+// Components
 import { PostCoverImage } from "../PostCoverImage";
-import { PostHeading } from "../PostHeading";
+import { PostSummary } from "../PostSummary";
 
 export async function PostsList() {
   const posts = await jsonPostRepository.findAll();
@@ -27,27 +29,13 @@ export async function PostsList() {
             link={{ href: `/posts/${post.slug}` }}
           />
 
-          <div className="flex flex-col gap-4 sm:justify-center">
-            <time
-              className="text-slate-600 text-sm/tight block"
-              dateTime="2025-07-20"
-            >
-              {new Date(post.createdAt).toLocaleDateString("pt-BR", {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-              })}
-            </time>
-
-            <PostHeading as="h3" link={{ href: `/posts/${post.slug}` }}>
-              {post.title}
-            </PostHeading>
-
-            <p>
-              {post.excerpt ||
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
-            </p>
-          </div>
+          <PostSummary
+            as="h2"
+            link={{ href: `/posts/${post.slug}` }}
+            createdAt={post.createdAt}
+            title={post.title}
+            excerpt={post.excerpt}
+          />
         </div>
       ))}
     </section>
