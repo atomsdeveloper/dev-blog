@@ -1,4 +1,4 @@
-"use server";
+"use client";
 
 // Components
 import Link from "next/link";
@@ -23,13 +23,13 @@ export function PostSummary({
   excerpt,
 }: PostSummaryProps) {
   return (
-    <div className="flex flex-col gap-4 sm:justify-center">
+    <section className="flex flex-col gap-4 sm:justify-center">
       <time
         className="text-slate-600 text-sm/tight block"
         dateTime="2025-07-20"
-        title={formatDateWithHours(new Date())}
+        title={formatDistanceToNow(new Date())}
       >
-        {formatDistanceToNow(createdAt)}
+        {formatDateWithHours(createdAt)}
       </time>
 
       <PostHeading as={as} link={link}>
@@ -40,6 +40,6 @@ export function PostSummary({
         {excerpt ||
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
       </p>
-    </div>
+    </section>
   );
 }
