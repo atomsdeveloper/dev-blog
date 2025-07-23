@@ -1,33 +1,30 @@
 "use server";
 
-// Repositories
-import { jsonPostRepository } from "@/repositories/post";
+// Queries Cache
+import { findAllPublishTrueQuery } from "@/lib/post/queries";
 
 // Components
 import { PostCoverImage } from "../PostCoverImage";
 import { PostSummary } from "../PostSummary";
-
-// Model
 import { PostModel } from "@/model/post/post-model";
 
 export async function PostsList() {
-  const posts = await jsonPostRepository.findAll();
+  const posts: PostModel[] = ((await findAllPublishTrueQuery()) ?? []).slice(1);
 
   if (!posts || posts.length === 0) {
     return <div className="p-4">No posts available.</div>;
   }
 
   return (
-    <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+    <section className="grid grid-cols-1 mb-16 sm:grid-cols-2 md:grid-cols-3 gap-8">
       {posts.map((post) => {
         return (
-          <div
-            key={post.id}
-            className="flex flex-col sm:flex-row gap-4 mb-8 group"
-          >
+          <div key={post.id} className="flex flex-col gap-4 group">
             <PostCoverImage
               image={{
-                src: `${post.coverImageUrl as string}`,
+                width: 1200,
+                height: 720,
+                src: `${post.coverImageUrl}`,
                 alt: `Cover Image ${post.title}`,
               }}
               link={{ href: `/posts/${post.slug}` }}
