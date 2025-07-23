@@ -46,11 +46,11 @@ export class JsonPostRepository implements PostRepository {
     }
   }
 
-  async findAll(): Promise<PostModel[]> {
+  async findAllPublishTrue(): Promise<PostModel[]> {
     await this.simulateAwait(); // Simulate delay for async operation
     try {
       const posts = await this.readFromDisk();
-      return posts as PostModel[];
+      return posts.filter((post) => post.published === true) as PostModel[];
     } catch (error) {
       throw error;
     }
@@ -59,7 +59,7 @@ export class JsonPostRepository implements PostRepository {
   async findById(id: string): Promise<PostModel> {
     await this.simulateAwait(); // Simulate delay for async operation
     try {
-      const posts = await this.findAll();
+      const posts = await this.findAllPublishTrue();
       const post = posts.find((post) => post.id === id);
 
       if (!post) {
