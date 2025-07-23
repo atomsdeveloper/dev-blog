@@ -1,3 +1,11 @@
+// Next
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "404 - Not Found",
+  description: "The page you are looking for does not exist.",
+};
+
 export default function NotFound() {
   return (
     <div className="min-h-[320px] flex flex-col items-center justify-center bg-slate-100 mb-24 p-8 rounded-4xl">
