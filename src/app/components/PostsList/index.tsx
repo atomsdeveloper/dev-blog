@@ -19,23 +19,23 @@ export async function PostsList() {
     <section className="grid grid-cols-1 mb-16 sm:grid-cols-2 md:grid-cols-3 gap-8">
       {posts.map((post) => {
         return (
-          <div key={post.id} className="flex flex-col gap-4 group">
+          <div key={post?.id} className="flex flex-col gap-4 group">
             <PostCoverImage
               image={{
                 width: 1200,
                 height: 720,
-                src: `${post.coverImageUrl}`,
-                alt: `Cover Image ${post.title}`,
+                src: `${post?.coverImageUrl}`,
+                alt: `Cover Image ${post?.title}`,
               }}
-              link={{ href: `/posts/${post.slug}` }}
+              link={{ href: `/post/${post?.slug}` }}
             />
 
             <PostSummary
               as="h2"
-              link={{ href: `/posts/${post.slug}` }}
-              createdAt={post.createdAt}
-              title={post.title}
-              excerpt={post.excerpt}
+              link={{ href: `/post/${post?.slug}` }}
+              createdAt={post?.createdAt}
+              title={post?.title}
+              excerpt={post?.excerpt}
             />
           </div>
         );
