@@ -50,23 +50,42 @@ export class JsonPostRepository implements PostRepository {
     await this.simulateAwait(); // Simulate delay for async operation
     try {
       const posts = await this.readFromDisk();
+
+      if (!posts) {
+        throw new Error(`Post with Slug ${posts} not found.`);
+      }
+
       return posts.filter((post) => post.published === true) as PostModel[];
     } catch (error) {
       throw error;
     }
   }
 
-  async findById(id: string): Promise<PostModel> {
-    await this.simulateAwait(); // Simulate delay for async operation
+  async findBySlug(slug: string): Promise<PostModel> {
     try {
       const posts = await this.findAllPublishTrue();
-      const post = posts.find((post) => post.id === id);
+      const postBySlug = posts.find((post) => post.slug === slug);
 
-      if (!post) {
-        throw new Error(`Post with ID ${id} not found.`);
+      if (!postBySlug) {
+        throw new Error(`Post with Slug ${postBySlug} not found.`);
       }
 
-      return post;
+      return postBySlug;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async findById(id: string): Promise<PostModel> {
+    try {
+      const posts = await this.findAllPublishTrue();
+      const postById = posts.find((post) => post.id === id);
+
+      if (!postById) {
+        throw new Error(`Post with Id ${postById} not found.`);
+      }
+
+      return postById;
     } catch (error) {
       throw error;
     }
