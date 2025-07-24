@@ -17,13 +17,6 @@ export default async function Home() {
         }
       >
         <PostFeatured />
-      </Suspense>
-
-      <Suspense
-        fallback={
-          <SpinLoader SpinLoaderContainerClass="h-[calc(100vh-64px)]" />
-        }
-      >
         <PostsList />
       </Suspense>
     </>
