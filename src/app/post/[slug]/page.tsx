@@ -15,15 +15,15 @@ import { notFound, redirect } from "next/navigation";
 import { Metadata } from "next";
 
 type PostSlugPageProps = {
-  params: Promise<{
+  params: {
     slug: string;
-  }>;
+  };
 };
 
 export async function generateMetadata({
   params,
 }: PostSlugPageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug } = params;
   const post = await findPostBySlugCache(slug);
 
   if (!post || !slug) {
@@ -42,15 +42,14 @@ export async function generateMetadata({
 // For example, in Next.js, params is already resolved.
 // Here, we assume params is a Promise that resolves to an object with a slug property
 export default async function PostSlugPage({ params }: PostSlugPageProps) {
-  const { slug } = await params;
+  const { slug } = params;
   if (!slug) {
     redirect("/");
   }
 
-  const post = await findPostBySlugCache(slug);
-  if (!post) {
-    notFound();
-  }
+  const post = await findPostBySlugCache(slug).catch(() => undefined);
+
+  console.log(post, slug);
 
   return (
     <Suspense
@@ -58,13 +57,13 @@ export default async function PostSlugPage({ params }: PostSlugPageProps) {
     >
       <SinglePost
         slug={slug}
-        title={post.title}
-        author={post.author}
-        createdAt={post.createdAt}
-        altCoverImageUrl={post.title}
-        coverImageUrl={post.coverImageUrl}
-        excerpt={post.excerpt}
-        content={post.content}
+        title={post?.title}
+        author={post?.author}
+        createdAt={post?.createdAt}
+        altCoverImageUrl={post?.title}
+        coverImageUrl={post?.coverImageUrl}
+        excerpt={post?.excerpt}
+        content={post?.content}
       />
     </Suspense>
   );
