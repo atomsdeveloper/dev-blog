@@ -1,7 +1,7 @@
 "use server";
 
 // Queries Cache
-import { findAllPublishTrueQuery } from "@/lib/post/queries";
+import { findAllPublishTrueCache } from "@/lib/post/queries";
 
 // Components
 import { PostModel } from "@/model/post/post-model";
@@ -9,7 +9,7 @@ import { PostCoverImage } from "../PostCoverImage";
 import { PostSummary } from "../PostSummary";
 
 export async function PostFeatured() {
-  const posts: PostModel[] = (await findAllPublishTrueQuery()) ?? [];
+  const posts: PostModel[] = (await findAllPublishTrueCache()) ?? [];
   const featuredPost: PostModel = posts[0];
 
   if (!featuredPost) {
