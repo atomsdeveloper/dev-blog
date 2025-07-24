@@ -1,7 +1,7 @@
 "use server";
 
 // Queries Cache
-import { findAllPublishTrueQuery } from "@/lib/post/queries";
+import { findAllPublishTrueCache } from "@/lib/post/queries";
 
 // Components
 import { PostCoverImage } from "../PostCoverImage";
@@ -9,7 +9,7 @@ import { PostSummary } from "../PostSummary";
 import { PostModel } from "@/model/post/post-model";
 
 export async function PostsList() {
-  const posts: PostModel[] = ((await findAllPublishTrueQuery()) ?? []).slice(1);
+  const posts: PostModel[] = ((await findAllPublishTrueCache()) ?? []).slice(1);
 
   if (!posts || posts.length === 0) {
     return <div className="p-4">No posts available.</div>;
