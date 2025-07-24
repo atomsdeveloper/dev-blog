@@ -8,6 +8,14 @@ import { cache } from "react";
 // This function uses the repository to fetch posts that are published (publish: true)
 // and caches the result for performance optimization.
 // It returns a promise that resolves to an array of PostModel objects.
-export const findAllPublishTrueQuery = cache(async () => {
+export const findAllPublishTrueCache = cache(async () => {
   return await jsonPostRepository.findAllPublishTrue();
+});
+
+export const findPostBySlugCache = cache(async (slug: string) => {
+  return await jsonPostRepository.findBySlug(slug);
+});
+
+export const findPostByIdCache = cache(async (id: string) => {
+  return await jsonPostRepository.findById(id);
 });
