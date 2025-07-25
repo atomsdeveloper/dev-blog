@@ -1,3 +1,5 @@
+"use client";
+
 // Next
 import Image from "next/image";
 
@@ -7,14 +9,14 @@ import { PostDate } from "../PostDate";
 import { SafeMarkdonw } from "../SafeMarkDown";
 
 type SinglePostProps = {
-  coverImageUrl?: string | undefined;
-  altCoverImageUrl?: string | undefined;
-  title?: string | undefined;
-  slug?: string | undefined;
-  author?: string | undefined;
-  createdAt?: string | undefined;
-  excerpt?: string | undefined;
-  content?: string | undefined;
+  coverImageUrl: string;
+  altCoverImageUrl: string;
+  title: string;
+  slug: string;
+  author: string;
+  createdAt: string;
+  excerpt: string;
+  content: string;
 };
 
 export function SinglePost({
@@ -32,8 +34,8 @@ export function SinglePost({
       <header className="group flex flex-col gap-4 mb-4">
         <Image
           className="rounded-xl"
-          src={coverImageUrl ?? ""}
-          alt={altCoverImageUrl ?? ""}
+          src={coverImageUrl}
+          alt={altCoverImageUrl}
           width={1200}
           height={720}
         />
@@ -43,12 +45,12 @@ export function SinglePost({
         </PostHeading>
 
         <p>
-          {author} | <PostDate createdAt={createdAt ?? ""} />
+          {author} | <PostDate createdAt={createdAt} />
         </p>
 
         <p className="text-xl italic text-slate-600 mb-4 ">{excerpt}</p>
 
-        <SafeMarkdonw markdown={content ?? ""} />
+        <SafeMarkdonw markdown={content} />
       </header>
     </article>
   );

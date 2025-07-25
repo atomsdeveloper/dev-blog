@@ -55,7 +55,7 @@ export class JsonPostRepository implements PostRepository {
         throw new Error(`Post with Slug ${posts} not found.`);
       }
 
-      return posts.filter((post) => post?.published === true) as PostModel[];
+      return posts.filter((post) => post.published === true) as PostModel[];
     } catch (error) {
       throw error;
     }
@@ -63,11 +63,11 @@ export class JsonPostRepository implements PostRepository {
 
   async findBySlug(slug: string): Promise<PostModel> {
     try {
-      const posts: PostModel[] | undefined = await this.findAllPublishTrue();
-      const postBySlug = posts.find((post) => post?.slug === slug);
+      const posts = await this.findAllPublishTrue();
+      const postBySlug = posts.find((post) => post.slug === slug);
 
       if (!postBySlug) {
-        return undefined;
+        throw new Error(`Post with Slug ${postBySlug} not found.`);
       }
 
       return postBySlug;
@@ -79,7 +79,7 @@ export class JsonPostRepository implements PostRepository {
   async findById(id: string): Promise<PostModel> {
     try {
       const posts = await this.findAllPublishTrue();
-      const postById = posts.find((post) => post?.id === id);
+      const postById = posts.find((post) => post.id === id);
 
       if (!postById) {
         throw new Error(`Post with Id ${postById} not found.`);

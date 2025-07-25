@@ -1,3 +1,5 @@
+"use client";
+
 type ErrorMessageProps = {
   title: string;
   text: string;

@@ -8,19 +8,19 @@ import { PostHeading } from "../PostHeading";
 import { PostDate } from "../PostDate";
 
 type PostSummaryProps = {
-  link?: React.ComponentProps<typeof Link>;
-  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-  createdAt?: Date | string;
-  title?: string;
-  excerpt?: string;
+  link: React.ComponentProps<typeof Link>;
+  as: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+  createdAt: Date | string;
+  title: string;
+  excerpt: string;
 };
 
 export function PostSummary({
   link = { href: "#" },
-  as = "h1",
-  createdAt = "",
-  title = "",
-  excerpt = "",
+  as,
+  createdAt,
+  title,
+  excerpt,
 }: PostSummaryProps) {
   return (
     <section className="flex flex-col gap-4 sm:justify-center">

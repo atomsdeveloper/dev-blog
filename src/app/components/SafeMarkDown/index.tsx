@@ -1,3 +1,5 @@
+"use client";
+
 // React Markdown
 import ReactMarkdown from "react-markdown";
 import rehypeSanitize from "rehype-sanitize";

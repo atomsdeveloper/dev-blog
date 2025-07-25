@@ -16,22 +16,24 @@ export async function PostFeatured() {
     return;
   }
 
+  const { coverImageUrl, title, slug, createdAt, excerpt } = featuredPost;
+
   return (
     <section className="grid grid-cols-1 sm:grid-cols-2 mb-16 gap-8 group">
       <PostCoverImage
         image={{
-          src: featuredPost.coverImageUrl,
-          alt: `Cover Image ${featuredPost.title}`,
+          src: coverImageUrl,
+          alt: `Cover Image ${title}`,
         }}
-        link={{ href: `/posts/${featuredPost.slug}` }}
+        link={{ href: `/posts/${slug}` }}
       />
 
       <PostSummary
         as="h2"
-        link={{ href: `/posts/${featuredPost.slug}` }}
-        createdAt={featuredPost.createdAt}
-        title={featuredPost.title}
-        excerpt={featuredPost.excerpt}
+        link={{ href: `/posts/${slug}` }}
+        createdAt={createdAt}
+        title={title}
+        excerpt={excerpt}
       />
     </section>
   );
