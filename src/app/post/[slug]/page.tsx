@@ -48,6 +48,9 @@ export default async function PostSlugPage({ params }: PostSlugPageProps) {
   }
 
   const post = await findPostBySlugCache(slug).catch(() => undefined);
+  if (!post) {
+    notFound();
+  }
 
   console.log(post, slug);
 
