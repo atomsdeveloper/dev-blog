@@ -46,7 +46,7 @@ export class JsonPostRepository implements PostRepository {
     }
   }
 
-  async findAllPublishTrue(): Promise<PostModel[]> {
+  async findAllPublishedTrue(): Promise<PostModel[]> {
     await this.simulateAwait(); // Simulate delay for async operation
     try {
       const posts = await this.readFromDisk();
@@ -61,9 +61,24 @@ export class JsonPostRepository implements PostRepository {
     }
   }
 
-  async findBySlug(slug: string): Promise<PostModel> {
+  async findAll(): Promise<PostModel[]> {
+    await this.simulateAwait(); // Simulate delay for async operation
     try {
-      const posts = await this.findAllPublishTrue();
+      const posts = await this.readFromDisk();
+
+      if (!posts) {
+        throw new Error(`Post with Slug ${posts} not found.`);
+      }
+
+      return posts as PostModel[];
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async findBySlugPublishedTrue(slug: string): Promise<PostModel> {
+    try {
+      const posts = await this.findAllPublishedTrue();
       const postBySlug = posts.find((post) => post.slug === slug);
 
       if (!postBySlug) {
@@ -78,7 +93,7 @@ export class JsonPostRepository implements PostRepository {
 
   async findById(id: string): Promise<PostModel> {
     try {
-      const posts = await this.findAllPublishTrue();
+      const posts = await this.findAllPublishedTrue();
       const postById = posts.find((post) => post.id === id);
 
       if (!postById) {
