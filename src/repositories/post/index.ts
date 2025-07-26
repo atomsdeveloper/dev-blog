@@ -9,4 +9,5 @@ import { PostRepository } from "./post-repository";
 // This is useful for maintaining a single source of truth for the posts data
 // Should be used in the application where the repository can change
 // ...and we want to ensure that the same instance is used everywhere.
-export const jsonPostRepository: PostRepository = new DrizzlePostRepository();
+export const InstancePostRepository: PostRepository =
+  new DrizzlePostRepository();
