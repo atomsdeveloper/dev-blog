@@ -9,11 +9,11 @@ import { cache } from "react";
 // and caches the result for performance optimization.
 // It returns a promise that resolves to an array of PostModel objects.
 export const findAllPublishTrueCache = cache(async () => {
-  return await jsonPostRepository.findAllPublishTrue();
+  return await jsonPostRepository.findAllPublishedTrue();
 });
 
 export const findPostBySlugCache = cache(async (slug: string) => {
-  return await jsonPostRepository.findBySlug(slug);
+  return await jsonPostRepository.findBySlugPublishedTrue(slug);
 });
 
 export const findPostByIdCache = cache(async (id: string) => {
