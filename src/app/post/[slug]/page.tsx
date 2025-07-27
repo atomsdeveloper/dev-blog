@@ -1,5 +1,3 @@
-"use server";
-
 // React
 import { Suspense } from "react";
 

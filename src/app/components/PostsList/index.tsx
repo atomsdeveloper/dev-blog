@@ -1,5 +1,3 @@
-"use server";
-
 // Queries Cache
 import { findAllPublishTrueCache } from "@/lib/post/queries";
 
