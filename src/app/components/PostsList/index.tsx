@@ -1,5 +1,5 @@
 // Queries Cache
-import { findAllPublishTrueCache } from "@/lib/post/queries";
+import { findAllPublishTrueCache } from "@/lib/post/queries/published";
 
 // Components
 import { PostCoverImage } from "../PostCoverImage";

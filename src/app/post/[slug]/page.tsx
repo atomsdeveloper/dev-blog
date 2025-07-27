@@ -6,7 +6,7 @@ import { SinglePost } from "@/app/components/SinglePost";
 import { SpinLoader } from "@/app/components/SpinLoader";
 
 // Query Cache
-import { findPostBySlugCache } from "@/lib/post/queries";
+import { findPostBySlugPublishedTrueCache } from "@/lib/post/queries/published";
 
 // Next
 import { notFound, redirect } from "next/navigation";
@@ -22,7 +22,7 @@ export async function generateMetadata({
   params,
 }: PostSlugPageProps): Promise<Metadata> {
   const { slug } = params;
-  const post = await findPostBySlugCache(slug);
+  const post = await findPostBySlugPublishedTrueCache(slug);
 
   if (!post || !slug) {
     throw new Error("Post or Slug can be not exists.");
@@ -45,7 +45,9 @@ export default async function PostSlugPage({ params }: PostSlugPageProps) {
     redirect("/");
   }
 
-  const post = await findPostBySlugCache(slug).catch(() => undefined);
+  const post = await findPostBySlugPublishedTrueCache(slug).catch(
+    () => undefined
+  );
   if (!post) {
     notFound();
   }
