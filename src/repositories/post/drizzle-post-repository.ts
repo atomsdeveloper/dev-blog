@@ -29,7 +29,8 @@ export class DrizzlePostRepository implements PostRepository {
   }
   // Return all posts
   async findAll(): Promise<PostModel[]> {
-    const posts = drizzleDatabase.select().from(postsTable);
+    const query = drizzleDatabase.select().from(postsTable);
+    const posts = await query.orderBy(desc(postsTable.createdAt));
 
     if (!posts) {
       throw new Error("Post cannot be found.");
