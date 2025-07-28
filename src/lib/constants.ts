@@ -1,0 +1,1 @@
+export const SIMULATE_AWAIT_PROMISE_IN_MS = 2500;

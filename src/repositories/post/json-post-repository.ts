@@ -10,6 +10,9 @@ import { resolve } from "path";
 // File System
 import { readFile } from "fs/promises";
 
+// Constants
+import { SIMULATE_AWAIT_PROMISE_IN_MS } from "@/lib/constants";
+
 const ROOT_DIR = process.cwd();
 const JSON_POSTS_FILE_PATH = resolve(
   ROOT_DIR,
@@ -18,9 +21,16 @@ const JSON_POSTS_FILE_PATH = resolve(
   "seed",
   "posts.json"
 ); // Return a string path to the posts data file
-const SIMULATE_AWAIT_PROMISE_IN_MS = 2500; // Simulate a delay for async operations
 
 export class JsonPostRepository implements PostRepository {
+  findBySlug(slug: string): Promise<PostModel> {
+    throw new Error("Method not implemented.");
+  }
+
+  findByIdPublishedTrue(id: string): Promise<PostModel> {
+    throw new Error("Method not implemented.");
+  }
+
   private async simulateAwait() {
     if (SIMULATE_AWAIT_PROMISE_IN_MS <= 0) {
       return;
