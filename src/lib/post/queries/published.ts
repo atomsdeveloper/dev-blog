@@ -1,5 +1,6 @@
 // Repository Pattern
 import { InstancePostRepository } from "@/repositories/post";
+import { unstable_cache } from "next/cache";
 
 // React
 import { cache } from "react";
@@ -9,9 +10,25 @@ import { cache } from "react";
 // and caches the result for performance optimization.
 // It returns a promise that resolves to an array of PostModel objects.
 export const findAllPublishTrueCache = cache(async () => {
-  return await InstancePostRepository.findAllPublishedTrue();
+  unstable_cache(
+    async () => {
+      return await InstancePostRepository.findAllPublishedTrue().catch(
+        () => undefined
+      );
+    },
+    ["posts"],
+    { tags: ["posts"] }
+  );
 });
 
-export const findPostBySlugPublishedTrueCache = cache(async (slug: string) => {
-  return await InstancePostRepository.findBySlugPublishedTrue(slug);
+export const findPostBySlugPublishedTrueCache = cache((slug: string) => {
+  return unstable_cache(
+    async (slug: string) => {
+      return await InstancePostRepository.findBySlugPublishedTrue(slug).catch(
+        () => undefined
+      );
+    },
+    [`post-${slug}`],
+    { tags: [`post-${slug}`] }
+  )(slug);
 });
