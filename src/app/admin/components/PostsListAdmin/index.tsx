@@ -1,14 +1,14 @@
 // Queries Cache
 import { findAllPublishTrueCache } from "@/lib/post/queries/published";
 
-// Components
+// Model
 import { PostModel } from "@/model/post/post-model";
+
+// Components
+import { ButtonDeletePostAdmin } from "../ButtonDeletePostAdmin";
 
 // Next
 import Link from "next/link";
-
-// Icons
-import { Trash2Icon } from "lucide-react";
 
 export async function PostsListAdmin() {
   const posts: PostModel[] = (await findAllPublishTrueCache()) ?? [];
@@ -20,7 +20,7 @@ export async function PostsListAdmin() {
   return (
     <section className="mb-16">
       {posts.map((post) => {
-        const { id, published } = post;
+        const { id, published, title } = post;
 
         const wasPublished = !published && "bg-slate-300";
 
@@ -36,13 +36,7 @@ export async function PostsListAdmin() {
               </span>
             )}
 
-            <button
-              title="Apagar post"
-              aria-label="Apagar post."
-              className="text-red-500 cursor-pointer transition hover:scale-125 hover:text-red-600 [&_svg]:w-4 [&_svg]:h-4"
-            >
-              <Trash2Icon />
-            </button>
+            <ButtonDeletePostAdmin title={title} id={id} />
           </section>
         );
       })}
