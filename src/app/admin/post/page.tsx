@@ -1,6 +1,11 @@
-import { PostsListAdmin } from "@/app/components/PostsListAdmin";
+// Components
+import { PostsListAdmin } from "@/app/admin/components/PostsListAdmin";
 import { SpinLoader } from "@/app/components/SpinLoader";
+
+// Next
 import { Metadata } from "next";
+
+// React
 import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
