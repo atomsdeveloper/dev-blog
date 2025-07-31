@@ -1,3 +1,5 @@
+"use client";
+
 // Action
 import { deletePostAction } from "@/actions/post/delete-post-action";
 
@@ -5,7 +7,8 @@ import { deletePostAction } from "@/actions/post/delete-post-action";
 import { Trash2Icon } from "lucide-react";
 
 // Hook Server
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
+import { Dialog } from "../Dialog";
 
 type ButtonDeletePostAdminProps = {
   id: string;
@@ -18,22 +21,43 @@ export function ButtonDeletePostAdmin({
 }: ButtonDeletePostAdminProps) {
   // Hook to status check of request function.
   const [isPending, startTransaction] = useTransition();
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handleClick = () => {
+    setOpenDialog(true);
+  };
+
+  const handleConfirm = async () => {
+    // The action will be executed in the server context.
+    // The UI will be updated after the action is completed.
     startTransaction(async () => {
       await deletePostAction(id);
     });
-  };
 
+    setOpenDialog(false);
+  };
   return (
-    <button
-      title={`Apagar post ${title}`}
-      aria-label="Apagar post."
-      className="text-red-500 cursor-pointer transition hover:scale-125 hover:text-red-600 [&_svg]:w-4 [&_svg]:h-4 disabled:cursor-not-allowed disabled:text-slate-500"
-      onClick={handleClick}
-      disabled={isPending}
-    >
-      <Trash2Icon />
-    </button>
+    <>
+      <button
+        title={`Apagar post ${title}`}
+        aria-label="Apagar post."
+        className="text-red-500 cursor-pointer transition hover:scale-125 hover:text-red-600 [&_svg]:w-4 [&_svg]:h-4 disabled:cursor-not-allowed disabled:text-slate-500"
+        onClick={handleClick}
+        disabled={isPending}
+      >
+        <Trash2Icon />
+      </button>
+
+      {openDialog && (
+        <Dialog
+          wasOpened={openDialog}
+          title="Confirmar exclusão"
+          content={`Você tem certeza que deseja excluir o post "${title}"? Esta ação não pode ser desfeita.`}
+          onCancel={() => setOpenDialog(false)}
+          onConfirm={handleConfirm}
+          disabled={isPending}
+        />
+      )}
+    </>
   );
 }
