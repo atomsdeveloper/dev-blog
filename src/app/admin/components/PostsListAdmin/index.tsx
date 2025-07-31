@@ -1,3 +1,5 @@
+"use client";
+
 // Queries Cache
 import { findAllPublishTrueCache } from "@/lib/post/queries/published";
 
