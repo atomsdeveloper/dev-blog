@@ -9,6 +9,7 @@ import { Trash2Icon } from "lucide-react";
 // Hook Server
 import { useState, useTransition } from "react";
 import { Dialog } from "../Dialog";
+import { toast } from "react-toastify";
 
 type ButtonDeletePostAdminProps = {
   id: string;
@@ -28,14 +29,25 @@ export function ButtonDeletePostAdmin({
   };
 
   const handleConfirm = async () => {
+    toast.dismiss();
+    toast.info("Excluindo post...");
+
     // The action will be executed in the server context.
     // The UI will be updated after the action is completed.
     startTransaction(async () => {
-      await deletePostAction(id);
-    });
+      const result = await deletePostAction(id);
 
-    setOpenDialog(false);
+      if (result.error) {
+        toast.error("Erro ao excluir post.");
+        return;
+      }
+
+      toast.success("Post excluído com sucesso!");
+
+      setOpenDialog(false);
+    });
   };
+
   return (
     <>
       <button
