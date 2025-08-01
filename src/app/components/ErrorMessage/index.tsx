@@ -1,8 +1,10 @@
 "use client";
 
+import React from "react";
+
 type ErrorMessageProps = {
   title: string;
-  text: string;
+  text: React.ReactNode;
 };
 
 export function ErrorMessage({ title, text }: ErrorMessageProps) {
