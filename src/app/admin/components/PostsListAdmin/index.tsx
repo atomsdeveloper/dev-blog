@@ -11,12 +11,18 @@ import { ButtonDeletePostAdmin } from "../ButtonDeletePostAdmin";
 
 // Next
 import Link from "next/link";
+import { ErrorMessage } from "@/app/components/ErrorMessage";
 
 export async function PostsListAdmin() {
   const posts: PostModel[] = (await findAllPublishTrueCache()) ?? [];
 
-  if (!posts || posts.length === 0) {
-    return <div className="p-4">No posts available.</div>;
+  if (!posts || posts.length <= 0) {
+    return (
+      <ErrorMessage
+        title="Nenhum post encontrado."
+        text={<Link href="/admin/post/new">Criar novo post</Link>}
+      />
+    );
   }
 
   return (

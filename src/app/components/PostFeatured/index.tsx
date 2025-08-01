@@ -5,13 +5,19 @@ import { findAllPublishTrueCache } from "@/lib/post/queries/published";
 import { PostModel } from "@/model/post/post-model";
 import { PostCoverImage } from "../PostCoverImage";
 import { PostSummary } from "../PostSummary";
+import { ErrorMessage } from "../ErrorMessage";
 
 export async function PostFeatured() {
   const posts: PostModel[] = (await findAllPublishTrueCache()) ?? [];
   const featuredPost: PostModel = posts[0];
 
   if (!featuredPost) {
-    return;
+    return (
+      <ErrorMessage
+        title="Nenhum post encontrado."
+        text={"Ainda não há posts publicados."}
+      />
+    );
   }
 
   const { coverImageUrl, title, slug, createdAt, excerpt } = featuredPost;

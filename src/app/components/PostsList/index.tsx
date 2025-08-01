@@ -4,13 +4,21 @@ import { findAllPublishTrueCache } from "@/lib/post/queries/published";
 // Components
 import { PostCoverImage } from "../PostCoverImage";
 import { PostSummary } from "../PostSummary";
+import { ErrorMessage } from "../ErrorMessage";
+
+// Model
 import { PostModel } from "@/model/post/post-model";
 
 export async function PostsList() {
   const posts: PostModel[] = ((await findAllPublishTrueCache()) ?? []).slice(1);
 
   if (!posts || posts.length === 0) {
-    return <div className="p-4">No posts available.</div>;
+    return (
+      <ErrorMessage
+        title="Nenhum post encontrado."
+        text={"Ainda não há posts publicados."}
+      />
+    );
   }
 
   return (
