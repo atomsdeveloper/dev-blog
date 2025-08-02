@@ -1,5 +1,5 @@
 // Queries Cache
-import { findAllPublishTrueCache } from "@/lib/post/queries/published";
+import { findAllPublishedTrueCache } from "@/lib/post/queries/published";
 
 // Components
 import { PostCoverImage } from "../PostCoverImage";
@@ -10,7 +10,9 @@ import { ErrorMessage } from "../ErrorMessage";
 import { PostModel } from "@/model/post/post-model";
 
 export async function PostsList() {
-  const posts: PostModel[] = ((await findAllPublishTrueCache()) ?? []).slice(1);
+  const posts: PostModel[] = ((await findAllPublishedTrueCache()) ?? []).slice(
+    1
+  );
 
   if (!posts || posts.length === 0) {
     return (

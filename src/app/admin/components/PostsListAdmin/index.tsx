@@ -1,7 +1,7 @@
 "use client";
 
 // Queries Cache
-import { findAllPublishTrueCache } from "@/lib/post/queries/published";
+import { findAllPublishedTrueCache } from "@/lib/post/queries/published";
 
 // Model
 import { PostModel } from "@/model/post/post-model";
@@ -14,7 +14,7 @@ import Link from "next/link";
 import { ErrorMessage } from "@/app/components/ErrorMessage";
 
 export async function PostsListAdmin() {
-  const posts: PostModel[] = (await findAllPublishTrueCache()) ?? [];
+  const posts: PostModel[] = (await findAllPublishedTrueCache()) ?? [];
 
   if (!posts || posts.length <= 0) {
     return (

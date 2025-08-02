@@ -1,5 +1,5 @@
 // Queries Cache
-import { findAllPublishTrueCache } from "@/lib/post/queries/published";
+import { findAllPublishedTrueCache } from "@/lib/post/queries/published";
 
 // Components
 import { PostModel } from "@/model/post/post-model";
@@ -8,7 +8,7 @@ import { PostSummary } from "../PostSummary";
 import { ErrorMessage } from "../ErrorMessage";
 
 export async function PostFeatured() {
-  const posts: PostModel[] = (await findAllPublishTrueCache()) ?? [];
+  const posts: PostModel[] = (await findAllPublishedTrueCache()) ?? [];
   const featuredPost: PostModel = posts[0];
 
   if (!featuredPost) {
