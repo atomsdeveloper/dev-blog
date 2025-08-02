@@ -5,12 +5,11 @@ import { unstable_cache } from "next/cache";
 // React
 import { cache } from "react";
 
-// Function to find all published posts
 // This function uses the repository to fetch posts that are published (publish: true)
 // and caches the result for performance optimization.
 // It returns a promise that resolves to an array of PostModel objects.
-export const findAllPublishTrueCache = cache(async () => {
-  unstable_cache(
+export const findAllPublishedTrueCache = cache(async () => {
+  return unstable_cache(
     async () => {
       return await InstancePostRepository.findAllPublishedTrue().catch(
         () => undefined
@@ -18,7 +17,7 @@ export const findAllPublishTrueCache = cache(async () => {
     },
     ["posts"],
     { tags: ["posts"] }
-  );
+  )();
 });
 
 export const findPostBySlugPublishedTrueCache = cache((slug: string) => {
