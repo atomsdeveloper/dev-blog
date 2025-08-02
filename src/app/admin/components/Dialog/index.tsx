@@ -1,3 +1,5 @@
+import { Button } from "@/app/components/Button";
+
 type DialogProps = {
   wasOpened?: boolean;
   title: string;
@@ -39,27 +41,30 @@ export function Dialog({
         </h3>
         <div id="dialog-content">{content}</div>
         <div className="flex items-center justify-around">
-          <button
+          <Button
+            variant="ghost"
+            size="md"
             disabled={disabled}
             onClick={handleClose}
             type="button"
             aria-label="Cancelar"
             title="Cancelar"
             autoFocus
-            className="bg-slate-200 hover:bg-slate-300 transition text-slate-950 flex items-center justify-center py-2 px 4 rounded-lg cursor-pointer border-none disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed"
           >
             Cancelar
-          </button>
-          <button
+          </Button>
+
+          <Button
+            size="md"
+            variant="default"
             disabled={disabled}
             onClick={onConfirm}
             type="button"
             aria-label="Confirmar"
             title="Confirmar"
-            className="bg-green-200 hover:bg-green-300 transition text-slate-50 flex items-center justify-center py-2 px 4 rounded-lg cursor-pointer border-none disabled:bg-slate-200 disabled::text-slate-400 disabled:cursor-not-allowed"
           >
-            Ok
-          </button>
+            Exluir
+          </Button>
         </div>
       </div>
     </section>
