@@ -23,18 +23,20 @@ export async function PostFeatured() {
   const { coverImageUrl, title, slug, createdAt, excerpt } = featuredPost;
 
   return (
+    // DONE - TO DO: Check beacuse by clicking on the cover image or post title, it does not redirect to the post.
+    // DONE - Caution: This occurent only post featured, not in the post list.
     <section className="grid grid-cols-1 sm:grid-cols-2 mb-16 gap-8 group">
       <PostCoverImage
         image={{
           src: coverImageUrl,
           alt: `Cover Image ${title}`,
         }}
-        link={{ href: `/posts/${slug}` }}
+        link={{ href: `/post/${slug}` }} // Ensure the link is correct from `posts` to `post`.
       />
 
       <PostSummary
         as="h2"
-        link={{ href: `/posts/${slug}` }}
+        link={{ href: `/post/${slug}` }} // Ensure the link is correct from `posts` to `post`.
         createdAt={createdAt}
         title={title}
         excerpt={excerpt}
