@@ -29,9 +29,9 @@ export function Nav() {
 
   return (
     <nav
-      className={`bg-slate-900 text-slate-100 rounded-lg flex flex-col sm:flex-row sm:items-end sm:flex-wrap
+      className={`bg-slate-900 text-slate-100 rounded-lg sm:flex-row sm:items-end sm:flex-wrap
       ${!wasOpen && "h-10"}
-        ${!wasOpen && "h-10"}
+      ${!wasOpen && "h-10"}
       ${!wasOpen && "overflow-hidden sm:overflow-visible sm:h-auto"}
     `}
     >
@@ -49,18 +49,18 @@ export function Nav() {
         )}
       </button>
 
-      <ul>
-        <li className="mb-2">
+      <ul className="flex flex-col sm:flex sm:flex-row sm:items-center sm:justify-start">
+        <li>
           <a href="/admin" className={classLinks}>
             <HouseIcon /> Home
           </a>
         </li>
-        <li className="mb-2">
+        <li>
           <Link href="/admin/posts" className={classLinks}>
             <FileTextIcon /> Posts
           </Link>
         </li>
-        <li className="mb-2">
+        <li>
           <Link href="/admin/posts/new" className={classLinks}>
             <PenIcon /> Criar
           </Link>
