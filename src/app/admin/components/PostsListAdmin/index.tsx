@@ -1,5 +1,3 @@
-"use client";
-
 // Queries Cache
 import { findAllPublishedTrueCache } from "@/lib/post/queries/published";
 
@@ -8,10 +6,10 @@ import { PostModel } from "@/model/post/post-model";
 
 // Components
 import { ButtonDeletePostAdmin } from "../ButtonDeletePostAdmin";
+import { ErrorMessage } from "@/app/components/ErrorMessage";
 
 // Next
 import Link from "next/link";
-import { ErrorMessage } from "@/app/components/ErrorMessage";
 
 export async function PostsListAdmin() {
   const posts: PostModel[] = (await findAllPublishedTrueCache()) ?? [];
@@ -35,15 +33,19 @@ export async function PostsListAdmin() {
         return (
           <section
             key={id}
-            className={`${wasPublished} flex gap-2 items-center justify-between`}
+            className={`${wasPublished} mt-1 flex gap-2 items-start justify-between p-2 mb-2 border-gray-200 hover:bg-gray-50 transition rounded`}
           >
-            <Link href={`/admin/post/${id}`} />
-            {!wasPublished && (
-              <span className="text-xs text-slate-600 italic">
-                (Post não publicado.)
-              </span>
-            )}
-
+            <Link
+              href={`/admin/post/${id}`}
+              className="w-full flex justify-between pr-6"
+            >
+              <h1 className="text-sm">{title}</h1>
+              {!wasPublished && (
+                <span className="text-xs text-slate-600 italic">
+                  (Post não publicado.)
+                </span>
+              )}
+            </Link>
             <ButtonDeletePostAdmin title={title} id={id} />
           </section>
         );
