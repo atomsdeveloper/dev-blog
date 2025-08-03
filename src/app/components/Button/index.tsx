@@ -35,8 +35,10 @@ export function Button({
         disabled &&
         `disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-slate-400`
       }
-        ${classSize[size]} ${classVariant[variant]}
-        flex items-center justify-center cursor-pointer transition`}
+      ${classSize[size]} ${classVariant[variant]}
+      ${props.className}
+      flex items-center justify-center cursor-pointer transition
+      `}
       disabled={disabled}
     >
       {children}
