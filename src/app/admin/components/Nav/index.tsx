@@ -25,11 +25,11 @@ export function Nav() {
     setWasOpen(false);
   }, [pathname]);
 
-  const classLinks = `h-10 shrink-0 [&>svg]:w-[16px] [&>svg]:h-[16px] px-4 flex items-center gap-2 rounded-lg transition hover:bg-slate-300 cursor-pointer`;
+  const classLinks = `h-10 shrink-0 [&>svg]:w-[16px] [&>svg]:h-[16px] px-4 flex items-center gap-2 rounded-lg transition hover:bg-slate-800 cursor-pointer`;
 
   return (
     <nav
-      className={`bg-slate-900 text-slate-100 rounded-lg sm:flex-row sm:items-end sm:flex-wrap
+      className={`bg-slate-900 text-slate-100 flex flex-col items-end sm:items-start rounded-lg sm:flex-row sm:flex-wrap
       ${!wasOpen && "h-10"}
       ${!wasOpen && "h-10"}
       ${!wasOpen && "overflow-hidden sm:overflow-visible sm:h-auto"}
@@ -39,7 +39,6 @@ export function Nav() {
         className={`${classLinks} text-slate-300 italic sm:hidden`}
         onClick={() => setWasOpen(!wasOpen)}
       >
-        {wasOpen ? "Close" : "Menu"}
         {wasOpen ? (
           <CircleXIcon />
         ) : (
@@ -49,7 +48,7 @@ export function Nav() {
         )}
       </button>
 
-      <ul className="flex flex-col sm:flex sm:flex-row sm:items-center sm:justify-start">
+      <ul className="flex flex-col sm:flex sm:flex-row sm:items-center sm:justify-start w-full">
         <li>
           <a href="/admin" className={classLinks}>
             <HouseIcon /> Home

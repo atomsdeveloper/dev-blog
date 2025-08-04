@@ -29,8 +29,8 @@ export function ButtonDeletePostAdmin({
   };
 
   const handleConfirm = async () => {
-    toast.dismiss();
     toast.info("Excluindo post...");
+    toast.dismiss();
 
     // The action will be executed in the server context.
     // The UI will be updated after the action is completed.
