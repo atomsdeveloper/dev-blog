@@ -7,7 +7,7 @@ import { BugIcon } from "lucide-react";
 import { Button } from "../../../components/Button";
 import { InputCheckbox } from "../../../components/InputCheckbox";
 import { InputText } from "../../../components/InputText";
-import { MarkdownEditor } from "@/app/components/MarkdownEditor";
+import { MarkdownEditor } from "../../../components/MarkdownEditor";
 
 // React
 import { useState } from "react";

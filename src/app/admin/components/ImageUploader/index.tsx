@@ -2,11 +2,17 @@
 
 // Components
 import { Button } from "@/app/components/Button";
+
+// Constants
 import { IMAGE_UPLOADER_MAX_SIZE } from "@/lib/constants";
+
+// Icons
 import { ImageUpIcon } from "lucide-react";
 
 // Hooks
 import { useRef } from "react";
+
+// Toast
 import { toast } from "react-toastify";
 
 export const ImageUploader = () => {
