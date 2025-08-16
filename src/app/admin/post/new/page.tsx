@@ -1,5 +1,5 @@
 // Components
-import { Form } from "@/app/components/Form";
+import { Form } from "../../../admin/components/Form";
 
 export const dynamic = "force-dynamic";
 

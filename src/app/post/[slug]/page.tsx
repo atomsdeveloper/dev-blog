@@ -52,8 +52,6 @@ export default async function PostSlugPage({ params }: PostSlugPageProps) {
     notFound();
   }
 
-  console.log(post, slug);
-
   return (
     <Suspense
       fallback={<SpinLoader SpinLoaderContainerClass="h-[calc(100vh-64px)]" />}
