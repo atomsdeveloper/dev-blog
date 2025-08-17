@@ -1,5 +1,6 @@
 "use client";
 
+import { uploadImageAction } from "@/actions/upload/upload-image-action";
 // Components
 import { Button } from "@/app/components/Button";
 
@@ -10,12 +11,13 @@ import { IMAGE_UPLOADER_MAX_SIZE } from "@/lib/constants";
 import { ImageUpIcon } from "lucide-react";
 
 // Hooks
-import { useRef } from "react";
+import { useRef, useTransition } from "react";
 
 // Toast
 import { toast } from "react-toastify";
 
 export const ImageUploader = () => {
+  const [hasPending, startTransaction] = useTransition();
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Handle click button to copy click for input.
@@ -27,6 +29,9 @@ export const ImageUploader = () => {
 
   // Handle change value input for validate.
   const handleInputChangeValue = () => {
+    toast.dismiss();
+    toast.info("Enviando a sua imagem, aguarde...");
+
     if (inputRef.current === null) return;
 
     const fileValueInput = inputRef.current; // Get value current
@@ -38,6 +43,7 @@ export const ImageUploader = () => {
     }
 
     if (file.size > IMAGE_UPLOADER_MAX_SIZE) {
+      toast.dismiss();
       toast.warning(
         `Imagem é muito grande. O tamanho máximo é ${
           IMAGE_UPLOADER_MAX_SIZE / 1024 + "KB"
@@ -49,9 +55,17 @@ export const ImageUploader = () => {
       return;
     }
 
-    // TODO: Create server action to send datas on click button.
     const formData = new FormData();
     formData.append("file", file);
+
+    // TODO: Send formData like param for action server.
+    startTransaction(async () => {
+      const response = await uploadImageAction();
+      console.log(response);
+
+      toast.dismiss();
+      toast.success("Imagem enviada com sucesso.");
+    });
 
     // Clear data of input send before datas.
     fileValueInput.value = "";
@@ -63,7 +77,8 @@ export const ImageUploader = () => {
         size="md"
         type="button"
         variant="default"
-        className="flex items-center"
+        className="flex items-center disabled:cursor-none disabled:opacity-45"
+        disabled={hasPending}
       >
         <ImageUpIcon />
         Selecionar uma imagem
