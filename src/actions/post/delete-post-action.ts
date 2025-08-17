@@ -16,6 +16,8 @@ import { postsTable } from "@/db/drizzle/schemas";
 import { revalidateTag } from "next/cache";
 
 export async function deletePostAction(id: string) {
+  // TODO: Check if user logged.
+
   if (!id || typeof id !== "string") {
     return {
       error: true,
@@ -23,7 +25,9 @@ export async function deletePostAction(id: string) {
     };
   }
 
+  // Get post per Id received.
   const post = await findPostByIdCache(id).catch(() => undefined);
+
   if (!post) {
     return {
       error: true,
@@ -31,9 +35,10 @@ export async function deletePostAction(id: string) {
     };
   }
 
-  // Mover para o repositório
+  // TODO: Move action that manipulate the removing of posts. /repositories/post/drizzle-post-repository.ts
   await drizzleDatabase.delete(postsTable).where(eq(postsTable.id, id));
 
+  // Revalidate Tags for update data cache in page.
   revalidateTag("posts");
   revalidateTag(`post-${post.slug}`);
 
