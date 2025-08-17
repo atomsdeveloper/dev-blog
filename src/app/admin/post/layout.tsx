@@ -1,4 +1,5 @@
 // Components
+import { ToastContainer } from "react-toastify";
 import { Nav } from "../components/Nav";
 
 type RootLayoutProps = {
@@ -10,6 +11,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
     <>
       <Nav />
       {children}
+      <ToastContainer />
     </>
   );
 }

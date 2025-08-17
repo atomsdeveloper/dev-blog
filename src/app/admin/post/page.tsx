@@ -1,7 +1,6 @@
 // Components
 import { PostsListAdmin } from "@/app/admin/components/PostsListAdmin";
 import { SpinLoader } from "@/app/components/SpinLoader";
-import { ToastContainer } from "react-toastify";
 
 // Next
 import { Metadata } from "next";
@@ -25,7 +24,6 @@ export default async function PostPage() {
       >
         <PostsListAdmin />
       </Suspense>
-      <ToastContainer />
     </>
   );
 }
