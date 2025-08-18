@@ -1,11 +1,74 @@
 "use server";
 
-export async function uploadImageAction() {
-  console.log("Call action successfull.");
-  return {
-    user: {
-      email: "user@gmail.com",
-      password: "123",
-    },
-  };
+import {
+  IMAGE_SERVER_DOMAIN,
+  IMAGE_UPLOAD_DIRECTORY,
+  IMAGE_UPLOADER_MAX_SIZE,
+} from "@/lib/constants";
+
+import { mkdir, writeFile } from "fs/promises";
+import { resolve } from "path";
+
+type uploadImageActionProps = {
+  url: string;
+  error: string;
+};
+
+export async function uploadImageAction(
+  formData: FormData
+): Promise<uploadImageActionProps> {
+  const responseReturn = { url: "", error: "" };
+
+  // TODO: Check has user logged for send file server.
+
+  if (!(formData instanceof FormData)) {
+    return { ...responseReturn, error: "Dados inválidos." };
+  }
+
+  const file = formData.get("file");
+
+  if (!file) {
+    return { ...responseReturn, error: "Arquivo não encontrado." };
+  }
+
+  if (!(file instanceof File)) {
+    return { ...responseReturn, error: "Arquivo inválido." };
+  }
+
+  if (file.size > IMAGE_UPLOADER_MAX_SIZE) {
+    return { ...responseReturn, error: "Imagem muito grande." };
+  }
+
+  if (!file.type.startsWith("image/")) {
+    return { ...responseReturn, error: "Imagem inválida." };
+  }
+
+  const generateImageName = `${Date.now()}_${file.name}`;
+
+  // Generate path folder.
+  const pathForUploadImage = resolve(
+    process.cwd(),
+    "public",
+    IMAGE_UPLOAD_DIRECTORY
+  );
+
+  // Created path folder. C:\Users\atoms\Documents\dev-blog\public\uploads
+  await mkdir(pathForUploadImage, { recursive: true });
+
+  const fileConvertBufferBytes = await file.arrayBuffer(); // Get bytes file.
+  const buffer = Buffer.from(fileConvertBufferBytes); // Add bytes of file on buffer node.
+
+  // Generate path folder with file create.
+  const pathForUploadImagePlusFile = resolve(
+    pathForUploadImage,
+    generateImageName
+  );
+
+  // Write in folder the buffer file.
+  await writeFile(pathForUploadImagePlusFile, buffer);
+
+  // Generate URL to return client.
+  const url = `${IMAGE_SERVER_DOMAIN}/${generateImageName}`;
+
+  return { ...responseReturn, url };
 }

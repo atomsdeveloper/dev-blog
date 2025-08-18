@@ -38,6 +38,7 @@ export const ImageUploader = () => {
     const file = fileValueInput?.files?.[0]; // Get of value current only file.
 
     if (!file) {
+      toast.dismiss();
       toast.warning("Imagem não existe, Tente novamente!.");
       return;
     }
@@ -60,11 +61,17 @@ export const ImageUploader = () => {
 
     // TODO: Send formData like param for action server.
     startTransaction(async () => {
-      const response = await uploadImageAction();
-      console.log(response);
-
       toast.dismiss();
-      toast.success("Imagem enviada com sucesso.");
+
+      const response = await uploadImageAction(formData);
+
+      if (response.error && response.url === "") {
+        // Clear data of input send before datas.
+        fileValueInput.value = "";
+        toast.error(response.error);
+      }
+
+      toast.success(`Imagem enviada com sucesso. ${response.url}`);
     });
 
     // Clear data of input send before datas.
