@@ -34,8 +34,8 @@ export const ImageUploader = () => {
 
     if (inputRef.current === null) return;
 
-    const fileValueInput = inputRef.current; // Get value current
-    const file = fileValueInput?.files?.[0]; // Get of value current only file.
+    const fileValueInputCurrent = inputRef.current; // Get value current
+    const file = fileValueInputCurrent?.files?.[0]; // Get of value current only file.
 
     if (!file) {
       toast.dismiss();
@@ -51,7 +51,7 @@ export const ImageUploader = () => {
         }, Tente novamente!.`
       );
 
-      fileValueInput.value = "";
+      fileValueInputCurrent.value = "";
 
       return;
     }
@@ -59,23 +59,20 @@ export const ImageUploader = () => {
     const formData = new FormData();
     formData.append("file", file);
 
-    // TODO: Send formData like param for action server.
     startTransaction(async () => {
       toast.dismiss();
 
       const response = await uploadImageAction(formData);
 
       if (response.error && response.url === "") {
-        // Clear data of input send before datas.
-        fileValueInput.value = "";
+        fileValueInputCurrent.value = "";
         toast.error(response.error);
       }
 
       toast.success(`Imagem enviada com sucesso. ${response.url}`);
     });
 
-    // Clear data of input send before datas.
-    fileValueInput.value = "";
+    fileValueInputCurrent.value = "";
   };
   return (
     <div className="flex flex-col gap-2 text-sm">
