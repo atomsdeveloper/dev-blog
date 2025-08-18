@@ -14,7 +14,7 @@ export function InputCheckbox({
   const id = useId(); // Generate a unique ID for the input element in each render this component is used
 
   return (
-    <div className="flex items-center gap-3 m-1">
+    <div className="flex items-center gap-3">
       <input
         type={type}
         {...props}
