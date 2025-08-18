@@ -105,6 +105,7 @@ export const ImageUploader = () => {
         accept="image/*"
         className="hidden"
         onChange={handleInputChangeValue}
+        disabled={hasPending}
       />
 
       {hasImage && (
