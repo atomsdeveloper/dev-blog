@@ -95,7 +95,7 @@ export const ImageUploader = () => {
         disabled={hasPending}
       >
         <ImageUpIcon />
-        Selecionar uma imagem
+        Selecionar imagem
       </Button>
 
       <input
@@ -110,10 +110,23 @@ export const ImageUploader = () => {
 
       {hasImage && (
         <div className="flex flex-col gap-4">
-          <p className="text-sm">
-            <b>URL</b>: {hasImage}
-          </p>
-          <Image src={hasImage} alt="Alt" width={100} height={100} />
+          <div className="flex gap-2 items-center">
+            <b className="text-sm">URL:</b>
+            <p
+              className="text-sm text-muted-foreground"
+              aria-description="Url da imagem enviada para o servidor"
+            >
+              {hasImage}
+            </p>
+          </div>
+
+          <Image
+            src={hasImage}
+            aria-description="Preview da imagem enviada para o servidor."
+            alt="Imagem."
+            width={100}
+            height={100}
+          />
         </div>
       )}
     </div>
