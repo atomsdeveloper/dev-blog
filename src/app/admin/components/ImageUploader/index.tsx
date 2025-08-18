@@ -1,6 +1,8 @@
 "use client";
 
+// Action
 import { uploadImageAction } from "@/actions/upload/upload-image-action";
+
 // Components
 import { Button } from "@/app/components/Button";
 
@@ -11,14 +13,18 @@ import { IMAGE_UPLOADER_MAX_SIZE } from "@/lib/constants";
 import { ImageUpIcon } from "lucide-react";
 
 // Hooks
-import { useRef, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 
 // Toast
 import { toast } from "react-toastify";
 
+// Next
+import Image from "next/image";
+
 export const ImageUploader = () => {
-  const [hasPending, startTransaction] = useTransition();
   const inputRef = useRef<HTMLInputElement>(null);
+  const [hasPending, startTransaction] = useTransition();
+  const [hasImage, setHasImage] = useState<string>("");
 
   // Handle click button to copy click for input.
   const handleClickButton = () => {
@@ -40,6 +46,7 @@ export const ImageUploader = () => {
     if (!file) {
       toast.dismiss();
       toast.warning("Imagem não existe, Tente novamente!.");
+      setHasImage("");
       return;
     }
 
@@ -51,7 +58,7 @@ export const ImageUploader = () => {
         }, Tente novamente!.`
       );
 
-      fileValueInputCurrent.value = "";
+      setHasImage("");
 
       return;
     }
@@ -65,17 +72,20 @@ export const ImageUploader = () => {
       const response = await uploadImageAction(formData);
 
       if (response.error && response.url === "") {
-        fileValueInputCurrent.value = "";
         toast.error(response.error);
+        setHasImage("");
       }
 
-      toast.success(`Imagem enviada com sucesso. ${response.url}`);
+      toast.success(`Imagem enviada com sucesso.`);
+
+      setHasImage(response.url);
     });
 
-    fileValueInputCurrent.value = "";
+    setHasImage("");
   };
+
   return (
-    <div className="flex flex-col gap-2 text-sm">
+    <div className="flex flex-col gap-2 text-sm space-y-4">
       <Button
         onClick={handleClickButton}
         size="md"
@@ -96,6 +106,15 @@ export const ImageUploader = () => {
         className="hidden"
         onChange={handleInputChangeValue}
       />
+
+      {hasImage && (
+        <div className="flex flex-col gap-4">
+          <p className="text-sm">
+            <b>URL</b>: {hasImage}
+          </p>
+          <Image src={hasImage} alt="Alt" width={100} height={100} />
+        </div>
+      )}
     </div>
   );
 };
