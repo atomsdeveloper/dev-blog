@@ -55,12 +55,12 @@ export function Nav() {
           </a>
         </li>
         <li>
-          <Link href="/admin/posts" className={classLinks}>
+          <Link href="/admin/post" className={classLinks}>
             <FileTextIcon /> Posts
           </Link>
         </li>
         <li>
-          <Link href="/admin/posts/new" className={classLinks}>
+          <Link href="/admin/post/new" className={classLinks}>
             <PenIcon /> Criar
           </Link>
         </li>
