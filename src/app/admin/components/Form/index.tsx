@@ -17,26 +17,36 @@ export function Form() {
   const [contentValue, setContentValue] = useState("");
 
   return (
-    <form action="" className="mb-6">
-      <div className="py-16 text-6xl">
-        {/* Buttons */}
-        <Button variant="default" size="sm" type="submit">
-          <BugIcon />
-          Button 0
-        </Button>
-        <Button variant="ghost" size="md" type="submit">
-          <BugIcon />
-          Button 1
-        </Button>
-        <Button variant="danger" size="lg" type="submit" disabled>
-          <BugIcon />
-          Button 2
-        </Button>
+    <form action="" className="mt-8">
+      <div className="flex flex-col gap-6">
+        {/* Input Text Area / SLUG */}
+        <InputText
+          labelText="Slug do Post"
+          name=""
+          type="text"
+          defaultValue={""}
+          readOnly
+        />
 
-        {/* Image Uploader */}
-        <ImageUploader />
+        {/* Input Text Area / AUTHOR */}
+        <InputText
+          labelText="Autor do Post"
+          name=""
+          type="text"
+          placeholder="Enter a author post."
+          defaultValue={""}
+        />
 
-        {/* Markdown Editor */}
+        {/* Input Text Area / TITLE */}
+        <InputText
+          labelText="Título do Post"
+          name=""
+          type="text"
+          placeholder="Enter a title post."
+          defaultValue={""}
+        />
+
+        {/* Markdown Editor / MARKDOWN */}
         <MarkdownEditor
           labelText="Conteúdo"
           disabled={false}
@@ -45,25 +55,21 @@ export function Form() {
           setValue={setContentValue}
         />
 
-        {/* Input Text Area */}
+        {/* Image Uploader / IMAGE UPLOAD*/}
+        <ImageUploader />
+
+        {/* Input Text Area / IMAGE URL */}
         <InputText
-          labelText="Write your post"
+          labelText="URL da Imagem de Capa"
+          name="url"
           type="text"
-          placeholder="Enter text"
+          placeholder="Enter with URL of image"
+          defaultValue={""}
         />
 
-        <InputText
-          labelText=""
-          type="text"
-          placeholder="Enter other text"
-          disabled
-        />
+        {/* Input Checkbox / PUBLISHED */}
+        <InputCheckbox type="checkbox" labelText="Publicar" />
 
-        {/* Input Checkbox */}
-        <InputCheckbox type="checkbox" labelText="Checkbox" />
-      </div>
-
-      <div className="mt-2">
         <Button variant="default" size="md" type="submit" className="w-full">
           Enviar
         </Button>
