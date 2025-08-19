@@ -5,13 +5,16 @@ import { Button } from "../../../components/Button";
 import { InputCheckbox } from "../../../components/InputCheckbox";
 import { InputText } from "../../../components/InputText";
 import { MarkdownEditor } from "../../../components/MarkdownEditor";
+import { ImageUploader } from "../ImageUploader";
 
 // React
-import { useState } from "react";
-import { ImageUploader } from "../ImageUploader";
+import { useActionState, useState } from "react";
 
 // Type
 import { PostDataTransferObjectType } from "@/dto/post/dto";
+
+// Action
+import { createdPostAction } from "@/actions/post/created-post-action";
 
 type FormProps = {
   post?: PostDataTransferObjectType;
@@ -19,6 +22,14 @@ type FormProps = {
 
 export function Form({ post }: FormProps) {
   const [contentValue, setContentValue] = useState(post?.content || "");
+
+  const initialState = {
+    number: 0,
+  };
+  const [state, action, isPending] = useActionState(
+    createdPostAction,
+    initialState
+  );
 
   return (
     <form action="" className="mt-8">
