@@ -1,7 +1,20 @@
-import { findPostBySlugPublishedTrueCache } from "@/lib/post/queries/published";
+// Components
 import { Form } from "../../components/Form";
-import { notFound } from "next/navigation";
+
+// DTO
 import { postDataTransferObjectFn } from "@/dto/post/dto";
+
+// Next
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+
+// Query
+import { findPostBySlugPublishedTrueCache } from "@/lib/post/queries/published";
+
+// Metadata
+export const metadata: Metadata = {
+  title: "Editar Post",
+};
 
 export const dynamic = "force-dynamic";
 

@@ -1,6 +1,14 @@
 // Components
 import { Form } from "../../../admin/components/Form";
 
+// Next
+import { Metadata } from "next";
+
+// Metadata
+export const metadata: Metadata = {
+  title: "Criar Post",
+};
+
 export const dynamic = "force-dynamic";
 
 export default async function NewPostPage() {
