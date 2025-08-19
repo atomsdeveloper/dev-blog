@@ -1,8 +1,5 @@
 "use client";
 
-// Icons
-import { BugIcon } from "lucide-react";
-
 // Components
 import { Button } from "../../../components/Button";
 import { InputCheckbox } from "../../../components/InputCheckbox";
@@ -13,8 +10,15 @@ import { MarkdownEditor } from "../../../components/MarkdownEditor";
 import { useState } from "react";
 import { ImageUploader } from "../ImageUploader";
 
-export function Form() {
-  const [contentValue, setContentValue] = useState("");
+// Type
+import { PostDataTransferObjectType } from "@/dto/post/dto";
+
+type FormProps = {
+  post?: PostDataTransferObjectType;
+};
+
+export function Form({ post }: FormProps) {
+  const [contentValue, setContentValue] = useState(post?.content || "");
 
   return (
     <form action="" className="mt-8">
@@ -24,7 +28,7 @@ export function Form() {
           labelText="Slug do Post"
           name=""
           type="text"
-          defaultValue={""}
+          defaultValue={post?.slug || ""}
           readOnly
         />
 
@@ -34,7 +38,7 @@ export function Form() {
           name=""
           type="text"
           placeholder="Enter a author post."
-          defaultValue={""}
+          defaultValue={post?.author || ""}
         />
 
         {/* Input Text Area / TITLE */}
@@ -43,7 +47,7 @@ export function Form() {
           name=""
           type="text"
           placeholder="Enter a title post."
-          defaultValue={""}
+          defaultValue={post?.title || ""}
         />
 
         {/* Markdown Editor / MARKDOWN */}
@@ -64,11 +68,15 @@ export function Form() {
           name="url"
           type="text"
           placeholder="Enter with URL of image"
-          defaultValue={""}
+          defaultValue={post?.coverImageUrl || ""}
         />
 
         {/* Input Checkbox / PUBLISHED */}
-        <InputCheckbox type="checkbox" labelText="Publicar" />
+        <InputCheckbox
+          type="checkbox"
+          labelText="Publicar"
+          checked={post?.published}
+        />
 
         <Button variant="default" size="md" type="submit" className="w-full">
           Enviar
