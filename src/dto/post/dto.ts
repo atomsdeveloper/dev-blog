@@ -1,6 +1,9 @@
 import { PostModel } from "@/model/post/post-model";
 
-export type PostDataTransferObjectType = Omit<PostModel, "updatedAt" | "id">;
+export type PostDataTransferObjectType = Omit<
+  PostModel,
+  "createdAt" | "updatedAt" | "id"
+>;
 
 // Function that receive post with type PostModel and return Data Transfer Object removing 'id' and 'updatedAt'.
 export const postDataTransferObjectFn = (
@@ -12,7 +15,6 @@ export const postDataTransferObjectFn = (
     excerpt: postModel?.excerpt,
     content: postModel?.content,
     coverImageUrl: postModel?.coverImageUrl,
-    createdAt: postModel?.createdAt,
     published: postModel?.published,
     author: postModel?.author,
   };
