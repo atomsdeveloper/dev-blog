@@ -11,7 +11,7 @@ export function InputText({ labelText, ...props }: InputTextProps) {
   return (
     <div className="flex flex-col gap-2 m-1">
       {labelText != "" && (
-        <label className="text-sm" htmlFor={id}>
+        <label className="text-xs font-bold" htmlFor={id}>
           {labelText}
         </label>
       )}
