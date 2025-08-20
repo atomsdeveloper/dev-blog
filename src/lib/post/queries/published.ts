@@ -22,14 +22,14 @@ export const findAllPublishedTrueCache = cache(async () => {
   )();
 });
 
-export const findPostByIdCache = cache((id: string) => {
+export const findPostBySlugCache = cache((slug: string) => {
   return unstable_cache(
-    async (id: string) => {
-      return await InstancePostRepository.findPostById(id).catch(
+    async (slug: string) => {
+      return await InstancePostRepository.findPostBySlug(slug).catch(
         () => undefined
       );
     },
-    [`post-${id}`],
-    { tags: [`post-${id}`] }
-  )(id);
+    [`post-${slug}`],
+    { tags: [`post-${slug}`] }
+  )(slug);
 });

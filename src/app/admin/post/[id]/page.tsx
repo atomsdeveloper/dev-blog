@@ -9,7 +9,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 // Query
-import { findPostByIdCache } from "@/lib/post/queries/published";
+import { findPostByIdCache } from "@/lib/post/queries/admin";
 
 export const dynamic = "force-dynamic";
 

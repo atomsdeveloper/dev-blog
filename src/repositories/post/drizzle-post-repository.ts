@@ -47,7 +47,7 @@ export class DrizzlePostRepository implements PostRepository {
     return posts;
   }
   // Return all posts with slug
-  async findBySlug(slug: string): Promise<PostModel> {
+  async findPostBySlug(slug: string): Promise<PostModel> {
     asyncDelay(SIMULATE_AWAIT_PROMISE_IN_MS, true);
 
     const query = drizzleDatabase.select().from(postsTable);
