@@ -1,21 +1,26 @@
 import { PostModel } from "@/model/post/post-model";
 
-export type PostDataTransferObjectType = Omit<
-  PostModel,
-  "createdAt" | "updatedAt" | "id"
->;
+// Type
+export type PostDataTransferObjectType = Omit<PostModel, "updatedAt">;
 
-// Function that receive post with type PostModel and return Data Transfer Object removing 'id' and 'updatedAt'.
-export const postDataTransferObjectFn = (
-  postModel: PostModel
+// Function that receive post with type PostModel and return Data Transfer Object removing 'id', 'createdAt' and 'updatedAt'.
+export const dtoPostNotNull = (
+  post?: Partial<PostModel> // Partial transform all datas in optionals
 ): PostDataTransferObjectType => {
   return {
-    slug: postModel?.slug,
-    title: postModel?.title,
-    excerpt: postModel?.excerpt,
-    content: postModel?.content,
-    coverImageUrl: postModel?.coverImageUrl,
-    published: postModel?.published,
-    author: postModel?.author,
+    id: post?.id || "",
+    slug: post?.slug || "",
+    title: post?.title || "",
+    excerpt: post?.excerpt || "",
+    content: post?.content || "",
+    coverImageUrl: post?.coverImageUrl || "",
+    published: post?.published || false,
+    author: post?.author || "",
+    createdAt: post?.createdAt || "",
   };
+};
+
+// Function that receive post with type PostModel and return Data Transfer Object removing 'id', 'createdAt' and 'updatedAt'.
+export const dtoPost = (postModel: PostModel): PostDataTransferObjectType => {
+  return dtoPostNotNull(postModel);
 };
