@@ -2,42 +2,44 @@
 import { Form } from "../../components/Form";
 
 // DTO
-import { postDataTransferObjectFn } from "@/dto/post/dto";
+import { dtoPost } from "@/dto/post/dto";
 
 // Next
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 // Query
-import { findPostBySlugPublishedTrueCache } from "@/lib/post/queries/published";
+import { findPostByIdCache } from "@/lib/post/queries/published";
+
+export const dynamic = "force-dynamic";
 
 // Metadata
 export const metadata: Metadata = {
   title: "Editar Post",
 };
 
-export const dynamic = "force-dynamic";
-
 type PostIdPageProps = {
-  params: Promise<{ id: string }>;
+  params: Promise<{
+    id: string;
+  }>;
 };
 
 export default async function PostIdPage({ params }: PostIdPageProps) {
   const { id } = await params;
-
-  const post = await findPostBySlugPublishedTrueCache(id).catch();
+  const post = await findPostByIdCache(id).catch(() => undefined);
 
   if (!post) {
     return notFound();
   }
-
+  // TODO: Convert comments from portuguese for english.
   // Data Transfer Object
-  const postDataTransferObject = postDataTransferObjectFn(post);
+  // Neste caso estou passando o post que busco do banco de dados por isso é necessário converter os os dados para serem retornados somente os dados necessários.
+  const dtoPostSecurity = dtoPost(post);
 
   return (
-    <div className="py-16 text-6xl">
-      <h1 className="text-xs">Editar Post</h1>
-      <Form post={postDataTransferObject} />
-    </div>
+    <>
+      <h1 className="text-3xl font-bold mt-6">Editar Post</h1>
+      <Form post={dtoPostSecurity} />
+    </>
   );
 }
