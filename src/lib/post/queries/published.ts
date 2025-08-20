@@ -1,5 +1,7 @@
 // Repository Pattern
 import { InstancePostRepository } from "@/repositories/post";
+
+// Next
 import { unstable_cache } from "next/cache";
 
 // React
@@ -20,14 +22,14 @@ export const findAllPublishedTrueCache = cache(async () => {
   )();
 });
 
-export const findPostBySlugPublishedTrueCache = cache((slug: string) => {
+export const findPostByIdCache = cache((id: string) => {
   return unstable_cache(
-    async (slug: string) => {
-      return await InstancePostRepository.findBySlugPublishedTrue(slug).catch(
+    async (id: string) => {
+      return await InstancePostRepository.findPostById(id).catch(
         () => undefined
       );
     },
-    [`post-${slug}`],
-    { tags: [`post-${slug}`] }
-  )(slug);
+    [`post-${id}`],
+    { tags: [`post-${id}`] }
+  )(id);
 });

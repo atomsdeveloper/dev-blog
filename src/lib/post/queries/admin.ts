@@ -9,7 +9,7 @@ import { cache } from "react";
 // and caches the result for performance optimization.
 // It returns a promise that resolves to an array of PostModel objects.
 export const findPostByIdCache = cache(async (id: string) => {
-  return await InstancePostRepository.findById(id);
+  return await InstancePostRepository.findPostById(id);
 });
 
 export const findAllPostCache = cache(async () => {

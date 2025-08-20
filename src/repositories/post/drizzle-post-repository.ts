@@ -75,7 +75,7 @@ export class DrizzlePostRepository implements PostRepository {
     return posts[0];
   }
   // Return all posts with id
-  async findById(id: string): Promise<PostModel> {
+  async findPostById(id: string): Promise<PostModel> {
     asyncDelay(SIMULATE_AWAIT_PROMISE_IN_MS, true);
 
     const query = drizzleDatabase.select().from(postsTable);
