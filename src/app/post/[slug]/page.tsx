@@ -13,15 +13,15 @@ import { notFound, redirect } from "next/navigation";
 import { Metadata } from "next";
 
 type PostSlugPageProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export async function generateMetadata({
   params,
 }: PostSlugPageProps): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
   const post = await findPostBySlugCache(slug);
 
   if (!post || !slug) {
@@ -40,7 +40,7 @@ export async function generateMetadata({
 // For example, in Next.js, params is already resolved.
 // Here, we assume params is a Promise that resolves to an object with a slug property
 export default async function PostSlugPage({ params }: PostSlugPageProps) {
-  const { slug } = params;
+  const { slug } = await params;
   if (!slug) {
     redirect("/");
   }
