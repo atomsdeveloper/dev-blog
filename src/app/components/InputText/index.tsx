@@ -16,9 +16,9 @@ export function InputText({ labelText, ...props }: InputTextProps) {
         </label>
       )}
       <input
+        id={id}
         className={`bg-white text-base/tight outline-none ring-1 ring-gray-300 p-2 rounded transition focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:placeholder:text-gray-400 disabled:bg-slate-100 placeholder:text-slate-500 ${props.className}`}
         {...props}
-        name={id}
       />
     </div>
   );

@@ -16,9 +16,9 @@ export function InputCheckbox({
   return (
     <div className="flex items-center gap-3">
       <input
+        id={id}
         type={type}
         {...props}
-        name={id}
         className="h-4 w-4 outline-0 foucus:ring-1 focus:ring-blue-500 foucus:rounded transition disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:ring-gray-300 disabled:placeholder:text-gray-400 placeholder:text-slate-500"
       />
       {labelText != "" && (
