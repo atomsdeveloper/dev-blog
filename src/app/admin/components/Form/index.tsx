@@ -60,11 +60,10 @@ export function Form({ post }: FormProps) {
         {/* Input Text Area / ID */}
         <InputText
           labelText="Id do Post"
-          id="id"
           name="id"
+          placeholder={"Id gerado pelo sistema."}
           type="text"
           defaultValue={valuesFormState.id}
-          placeholder={valuesFormState.id}
           disabled={true}
           readOnly
         />
@@ -72,10 +71,9 @@ export function Form({ post }: FormProps) {
         {/* Input Text Area / SLUG */}
         <InputText
           labelText="Slug do Post"
-          id="slug"
           name="slug"
+          placeholder={"Slug gerada pelo sistema."}
           type="text"
-          placeholder={valuesFormState.slug}
           defaultValue={valuesFormState.slug}
           disabled={true}
           readOnly
@@ -84,7 +82,6 @@ export function Form({ post }: FormProps) {
         {/* Input Text Area / AUTHOR */}
         <InputText
           labelText="Autor do Post"
-          id="author"
           name="author"
           type="text"
           placeholder="Enter a author post."
@@ -95,7 +92,6 @@ export function Form({ post }: FormProps) {
         {/* Input Text Area / TITLE */}
         <InputText
           labelText="Título do Post"
-          id="title"
           name="title"
           type="text"
           placeholder="Enter a title post."
@@ -106,7 +102,6 @@ export function Form({ post }: FormProps) {
         {/* Input Text Area / TITLE */}
         <InputText
           labelText="Excerpt do Post"
-          id="excerpt"
           name="excerpt"
           type="text"
           placeholder="Enter a title post."
@@ -129,8 +124,7 @@ export function Form({ post }: FormProps) {
         {/* Input Text Area / IMAGE URL */}
         <InputText
           labelText="URL da Imagem de Capa"
-          id="url"
-          name="url"
+          name="coverImageUrl"
           type="text"
           placeholder="Enter with URL of image"
           defaultValue={valuesFormState.coverImageUrl}
@@ -142,7 +136,7 @@ export function Form({ post }: FormProps) {
           type="checkbox"
           labelText="Publicar"
           name="published"
-          id="published"
+          defaultChecked={valuesFormState.published}
           disabled={isPending}
         />
 
