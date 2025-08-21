@@ -1,7 +1,9 @@
 "use server";
 
-// Data Transfer Object
+// Database
 import { drizzleDatabase } from "@/db/drizzle";
+
+// Data Transfer Object
 import { postsTable } from "@/db/drizzle/schemas";
 import { dtoPostNotNull, PostDataTransferObjectType } from "@/dto/post/dto";
 
@@ -12,13 +14,16 @@ import { PostCreateSchema } from "@/lib/post/check";
 import { PostModel } from "@/model/post/post-model";
 
 // Utils
-import { getZodConvertErrorMessageArray } from "@/utils/get-zod-error-msg";
-import { makeSlugTextString } from "@/utils/make-slug-text-string";
+// import { getZodConvertErrorMessageArray } from "@/utils/get-zod-error-msg";
+import { makeRandomSlug } from "../../utils/make-random-slug";
+
+// Next
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
-//
+// UUID
 import { v4 as uuid } from "uuid";
+import { getZodConvertErrorMessageArray } from "@/utils/get-zod-error-msg";
 
 type CreatePostActionProps = {
   valuesFormState: PostDataTransferObjectType; // Valores recebidos
@@ -44,6 +49,13 @@ export async function createdPostAction(
     formData.entries()
   );
 
+  // Remove fields of type File
+  for (const key in convertFormDataEntriesTypeForObj) {
+    if (convertFormDataEntriesTypeForObj[key] instanceof File) {
+      delete convertFormDataEntriesTypeForObj[key];
+    }
+  }
+
   const returnZodCheckDatasForm = PostCreateSchema.safeParse(
     convertFormDataEntriesTypeForObj
   );
@@ -51,7 +63,7 @@ export async function createdPostAction(
   if (!returnZodCheckDatasForm.success) {
     const arrayErrorsZod = getZodConvertErrorMessageArray(
       returnZodCheckDatasForm.error.format()
-    ).filter(Boolean);
+    );
 
     return {
       errors: arrayErrorsZod,
@@ -66,12 +78,12 @@ export async function createdPostAction(
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     id: uuid(),
-    slug: makeSlugTextString(checkAllDatasOk.title),
+    slug: makeRandomSlug(checkAllDatasOk.title),
   };
 
   // TODO: Move action that manipulate the removing of posts. /repositories/post/drizzle-post-repository.ts
   await drizzleDatabase.insert(postsTable).values(newPost);
 
   revalidateTag("posts");
-  redirect(`/post/${newPost.id}`);
+  redirect(`/admin/post/${newPost.id}`);
 }
