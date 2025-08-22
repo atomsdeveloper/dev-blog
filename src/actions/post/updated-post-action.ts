@@ -1,11 +1,7 @@
 "use server";
 
 // Data Transfer Object
-import {
-  dtoPost,
-  dtoPostNotNull,
-  PostDataTransferObjectType,
-} from "@/dto/post/dto";
+import { dtoPostNotNull, PostDataTransferObjectType } from "@/dto/post/dto";
 
 // Check
 import { PostUpdateSchema } from "@/lib/post/check";
@@ -18,7 +14,8 @@ import { getZodConvertErrorMessageArray } from "@/utils/get-zod-error-msg";
 import { makeRandomValue } from "@/utils/make-random-value";
 
 // Instance
-import { InstancePostRepository } from "@/repositories/post";
+import { updatedPostAdmin } from "@/lib/post/queries/admin";
+import { extractField } from "@/utils/extract-post-id";
 
 type UpdatePostActionProps = {
   valuesFormState: PostDataTransferObjectType; // Valores recebidos
@@ -44,8 +41,10 @@ export async function updatedPostAction(
     formData.entries()
   );
 
-  const id = formData.get("id")?.toString() || "";
-  if (!id) {
+  const postId = extractField<string>(formData, "id");
+  console.log(postId);
+
+  if (!postId) {
     throw new Error("Id não encontrado.");
   }
 
@@ -79,7 +78,7 @@ export async function updatedPostAction(
 
   let post;
   try {
-    post = await InstancePostRepository.updatePost(id, newPost);
+    post = await updatedPostAdmin(postId, newPost);
   } catch (e: unknown) {
     if (e instanceof Error) {
       return {
@@ -94,11 +93,11 @@ export async function updatedPostAction(
   }
 
   revalidateTag("posts");
-  revalidateTag(`/admin/post/${post.id}`);
+  revalidateTag(`/admin/post/${postId}`);
 
   return {
     errors: [],
-    valuesFormState: dtoPost(post),
+    valuesFormState: dtoPostNotNull(post),
     success: makeRandomValue(),
   };
 }

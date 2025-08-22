@@ -28,7 +28,7 @@ export const createdPostAdmin = async (post: PostModel) => {
 
 export const updatedPostAdmin = async (
   id: string,
-  post: Omit<PostModel, "id" | "slug" | "createdAt" | "updateAt">
+  post: Omit<PostModel, "id" | "slug" | "createdAt" | "updatedAt">
 ) => {
   return await InstancePostRepository.updatePost(id, post);
 };

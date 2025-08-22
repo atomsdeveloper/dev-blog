@@ -16,5 +16,5 @@ export interface PostRepository {
   updatePost(
     id: string,
     newPostDatas: Omit<PostModel, "id" | "slug" | "createdAt" | "updatedAt">
-  ): Promise<PostModel>;
+  ): Promise<Omit<PostModel, "id" | "slug" | "createdAt" | "updatedAt">>;
 }
