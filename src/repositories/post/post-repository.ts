@@ -4,9 +4,10 @@ import { PostModel } from "@/model/post/post-model";
 // Repository Pattern
 export interface PostRepository {
   findPostById(id: string): Promise<PostModel>;
-  findAllPublishedTrue(): Promise<PostModel[]>;
-  findAll(): Promise<PostModel[]>;
   findBySlugPublishedTrue(slug: string): Promise<PostModel>;
+  findAll(): Promise<PostModel[]>;
+  findAllPublishedTrue(): Promise<PostModel[]>;
+
   findPostBySlug(slug: string): Promise<PostModel>;
   findByIdPublishedTrue(id: string): Promise<PostModel>;
 
@@ -16,5 +17,5 @@ export interface PostRepository {
   updatePost(
     id: string,
     newPostDatas: Omit<PostModel, "id" | "slug" | "createdAt" | "updatedAt">
-  ): Promise<Omit<PostModel, "id" | "slug" | "createdAt" | "updatedAt">>;
+  ): Promise<PostModel>;
 }

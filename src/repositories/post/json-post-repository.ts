@@ -11,7 +11,7 @@ import { resolve } from "path";
 import { readFile } from "fs/promises";
 
 // Constants
-import { SIMULATE_AWAIT_PROMISE_IN_MS } from "@/lib/constants";
+import { SIMULATE_AWAIT_PROMISE_IN_MS_VARIABLE } from "@/lib/constants";
 
 const ROOT_DIR = process.cwd();
 const JSON_POSTS_FILE_PATH = resolve(
@@ -22,22 +22,24 @@ const JSON_POSTS_FILE_PATH = resolve(
   "posts.json"
 ); // Return a string path to the posts data file
 
-export class JsonPostRepository implements PostRepository {
-  findBySlug(slug: string): Promise<PostModel> {
-    throw new Error("Method not implemented.");
+export class JsonPostRepository
+  implements Omit<PostRepository, "createPost" | "updatePost" | "deletePost">
+{
+  async findPostBySlug(slug: string): Promise<PostModel> {
+    throw new Error("Method not implemented." + `${slug}`);
   }
 
-  findByIdPublishedTrue(id: string): Promise<PostModel> {
-    throw new Error("Method not implemented.");
+  async findByIdPublishedTrue(id: string): Promise<PostModel> {
+    throw new Error("Method not implemented." + `${id}`);
   }
 
   private async simulateAwait() {
-    if (SIMULATE_AWAIT_PROMISE_IN_MS <= 0) {
+    if (SIMULATE_AWAIT_PROMISE_IN_MS_VARIABLE <= 0) {
       return;
     }
 
     await new Promise((resolve) =>
-      setTimeout(resolve, SIMULATE_AWAIT_PROMISE_IN_MS)
+      setTimeout(resolve, SIMULATE_AWAIT_PROMISE_IN_MS_VARIABLE)
     );
   }
 
@@ -101,7 +103,7 @@ export class JsonPostRepository implements PostRepository {
     }
   }
 
-  async findById(id: string): Promise<PostModel> {
+  async findPostById(id: string): Promise<PostModel> {
     try {
       const posts = await this.findAllPublishedTrue();
       const postById = posts.find((post) => post.id === id);
@@ -116,19 +118,3 @@ export class JsonPostRepository implements PostRepository {
     }
   }
 }
-
-// Example usage (uncomment to test):
-// (async () => {
-//   try {
-//     const posts = await jsonPostRepository.findAll();
-//     const post = await jsonPostRepository.findById("9eb8b7ac-2b48-4835-880a-a1c798e1a595");
-//     posts.forEach((post) => {
-//       console.log(`Post ID: ${post.id}, Title: ${post.title}`);
-//     });
-//
-//     console.log("Post retrieved successfully:", post);
-//     console.log("Posts retrieved successfully:", posts);
-//   } catch (error) {
-//     console.error("Error retrieving posts:", error);
-//   }
-// })();
