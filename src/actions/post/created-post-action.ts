@@ -24,6 +24,7 @@ import { redirect } from "next/navigation";
 // UUID
 import { v4 as uuid } from "uuid";
 import { getZodConvertErrorMessageArray } from "@/utils/get-zod-error-msg";
+import { InstancePostRepository } from "@/repositories/post";
 
 type CreatePostActionProps = {
   valuesFormState: PostDataTransferObjectType; // Valores recebidos
@@ -81,9 +82,21 @@ export async function createdPostAction(
     slug: makeRandomSlug(checkAllDatasOk.title),
   };
 
-  // TODO: Move action that manipulate the removing of posts. /repositories/post/drizzle-post-repository.ts
-  await drizzleDatabase.insert(postsTable).values(newPost);
+  try {
+    await InstancePostRepository.createPost(newPost);
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      return {
+        errors: [e.message],
+        valuesFormState: newPost,
+      };
+    }
+    return {
+      errors: ["Erro desconhecido"],
+      valuesFormState: newPost,
+    };
+  }
 
   revalidateTag("posts");
-  redirect(`/admin/post/${newPost.id}`);
+  redirect(`/admin/post/${newPost.id}?created=true`);
 }
