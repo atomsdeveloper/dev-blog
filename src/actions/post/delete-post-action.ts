@@ -2,7 +2,7 @@
 
 // Repositories
 import { revalidateTag } from "next/cache";
-import { InstancePostRepository } from "@/repositories/post";
+import { deletePostAdmin } from "@/lib/post/queries/admin";
 
 export async function deletePostAction(id: string) {
   // TODO: Check if user logged.
@@ -16,7 +16,7 @@ export async function deletePostAction(id: string) {
 
   let postId;
   try {
-    postId = await InstancePostRepository.deletePost(id);
+    postId = await deletePostAdmin(id);
   } catch (e: unknown) {
     if (e instanceof Error) {
       return {

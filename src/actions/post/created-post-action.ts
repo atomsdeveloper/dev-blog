@@ -1,10 +1,5 @@
 "use server";
 
-// Database
-import { drizzleDatabase } from "@/db/drizzle";
-
-// Data Transfer Object
-import { postsTable } from "@/db/drizzle/schemas";
 import { dtoPostNotNull, PostDataTransferObjectType } from "@/dto/post/dto";
 
 // Check
@@ -24,7 +19,7 @@ import { redirect } from "next/navigation";
 // UUID
 import { v4 as uuid } from "uuid";
 import { getZodConvertErrorMessageArray } from "@/utils/get-zod-error-msg";
-import { InstancePostRepository } from "@/repositories/post";
+import { createdPostAdmin } from "@/lib/post/queries/admin";
 
 type CreatePostActionProps = {
   valuesFormState: PostDataTransferObjectType; // Valores recebidos
@@ -83,7 +78,7 @@ export async function createdPostAction(
   };
 
   try {
-    await InstancePostRepository.createPost(newPost);
+    await createdPostAdmin(newPost);
   } catch (e: unknown) {
     if (e instanceof Error) {
       return {
