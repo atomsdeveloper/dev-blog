@@ -1,5 +1,3 @@
-// Repository Pattern
-import { dtoPost, PostDataTransferObjectType } from "@/dto/post/dto";
 import { PostModel } from "@/model/post/post-model";
 import { InstancePostRepository } from "@/repositories/post";
 

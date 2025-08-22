@@ -1,9 +1,9 @@
 "use server";
 
 import {
-  IMAGE_SERVER_DOMAIN,
-  IMAGE_UPLOAD_DIRECTORY,
-  IMAGE_UPLOADER_MAX_SIZE,
+  IMAGE_SERVER_DOMAIN_VARIABLE,
+  IMAGE_UPLOAD_DIRECTORY_VARIABLE,
+  IMAGE_UPLOADER_MAX_SIZE_VARIABLE,
 } from "@/lib/constants";
 
 import { mkdir, writeFile } from "fs/promises";
@@ -35,7 +35,7 @@ export async function uploadImageAction(
     return { ...responseReturn, error: "Arquivo inválido." };
   }
 
-  if (file.size > IMAGE_UPLOADER_MAX_SIZE) {
+  if (file.size > IMAGE_UPLOADER_MAX_SIZE_VARIABLE) {
     return { ...responseReturn, error: "Imagem muito grande." };
   }
 
@@ -49,7 +49,7 @@ export async function uploadImageAction(
   const pathForUploadImage = resolve(
     process.cwd(),
     "public",
-    IMAGE_UPLOAD_DIRECTORY
+    IMAGE_UPLOAD_DIRECTORY_VARIABLE
   );
 
   // Created path folder. C:\Users\atoms\Documents\dev-blog\public\uploads
@@ -68,7 +68,7 @@ export async function uploadImageAction(
   await writeFile(pathForUploadImagePlusFile, buffer);
 
   // Generate URL to return client.
-  const url = `${IMAGE_SERVER_DOMAIN}/${generateImageName}`;
+  const url = `${IMAGE_SERVER_DOMAIN_VARIABLE}/${generateImageName}`;
 
   return { ...responseReturn, url };
 }

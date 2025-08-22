@@ -11,16 +11,16 @@ import { postsTable } from "@/db/drizzle/schemas";
 import { PostRepository } from "./post-repository";
 
 // Functions Database
-import { eq, desc, or, and } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 
 // Delay
 import { asyncDelay } from "@/utils/async-delay";
-import { SIMULATE_AWAIT_PROMISE_IN_MS } from "@/lib/constants";
+import { SIMULATE_AWAIT_PROMISE_IN_MS_VARIABLE } from "@/lib/constants";
 
 export class DrizzlePostRepository implements PostRepository {
   // Return all posts with published equal true and order by desc
   async findAllPublishedTrue(): Promise<PostModel[]> {
-    asyncDelay(SIMULATE_AWAIT_PROMISE_IN_MS, true);
+    asyncDelay(SIMULATE_AWAIT_PROMISE_IN_MS_VARIABLE, true);
 
     const query = drizzleDatabase.select().from(postsTable);
     const posts = await query
@@ -35,7 +35,7 @@ export class DrizzlePostRepository implements PostRepository {
   }
   // Return all posts
   async findAll(): Promise<PostModel[]> {
-    asyncDelay(SIMULATE_AWAIT_PROMISE_IN_MS, true);
+    asyncDelay(SIMULATE_AWAIT_PROMISE_IN_MS_VARIABLE, true);
 
     const query = drizzleDatabase.select().from(postsTable);
     const posts = await query.orderBy(desc(postsTable.createdAt));
@@ -48,7 +48,7 @@ export class DrizzlePostRepository implements PostRepository {
   }
   // Return all posts with slug
   async findPostBySlug(slug: string): Promise<PostModel> {
-    asyncDelay(SIMULATE_AWAIT_PROMISE_IN_MS, true);
+    asyncDelay(SIMULATE_AWAIT_PROMISE_IN_MS_VARIABLE, true);
 
     const query = drizzleDatabase.select().from(postsTable);
     const posts = await query.where(and(eq(postsTable.slug, slug)));
@@ -61,7 +61,7 @@ export class DrizzlePostRepository implements PostRepository {
   }
   // Return all posts with slug and published equal true
   async findBySlugPublishedTrue(slug: string): Promise<PostModel> {
-    asyncDelay(SIMULATE_AWAIT_PROMISE_IN_MS, true);
+    asyncDelay(SIMULATE_AWAIT_PROMISE_IN_MS_VARIABLE, true);
 
     const query = drizzleDatabase.select().from(postsTable);
     const posts = await query.where(
@@ -76,7 +76,7 @@ export class DrizzlePostRepository implements PostRepository {
   }
   // Return all posts with id
   async findPostById(id: string): Promise<PostModel> {
-    asyncDelay(SIMULATE_AWAIT_PROMISE_IN_MS, true);
+    asyncDelay(SIMULATE_AWAIT_PROMISE_IN_MS_VARIABLE, true);
 
     const query = drizzleDatabase.select().from(postsTable);
     const posts = await query.where(and(eq(postsTable.id, id)));
@@ -89,7 +89,7 @@ export class DrizzlePostRepository implements PostRepository {
   }
   // Return all posts with id and published equal true
   async findByIdPublishedTrue(id: string): Promise<PostModel> {
-    asyncDelay(SIMULATE_AWAIT_PROMISE_IN_MS, true);
+    asyncDelay(SIMULATE_AWAIT_PROMISE_IN_MS_VARIABLE, true);
 
     const query = drizzleDatabase.select().from(postsTable);
     const posts = await query.where(
