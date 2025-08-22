@@ -21,7 +21,11 @@ import { toast } from "react-toastify";
 // Next
 import Image from "next/image";
 
-export const ImageUploader = () => {
+type ImageUploaderProps = {
+  disabled?: boolean;
+};
+
+export const ImageUploader = ({ disabled = false }: ImageUploaderProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [hasPending, startTransaction] = useTransition();
   const [hasImage, setHasImage] = useState<string>("");
@@ -92,7 +96,7 @@ export const ImageUploader = () => {
         type="button"
         variant="default"
         className="flex items-center disabled:cursor-none disabled:opacity-45"
-        disabled={hasPending}
+        disabled={hasPending || disabled}
       >
         <ImageUpIcon />
         Selecionar imagem
@@ -105,7 +109,7 @@ export const ImageUploader = () => {
         accept="image/*"
         className="hidden"
         onChange={handleInputChangeValue}
-        disabled={hasPending}
+        disabled={hasPending || disabled}
       />
 
       {hasImage && (
