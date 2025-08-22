@@ -9,4 +9,12 @@ export interface PostRepository {
   findBySlugPublishedTrue(slug: string): Promise<PostModel>;
   findPostBySlug(slug: string): Promise<PostModel>;
   findByIdPublishedTrue(id: string): Promise<PostModel>;
+
+  // Mutation
+  createPost(post: PostModel): Promise<PostModel>;
+  deletePost(id: string): Promise<PostModel>;
+  updatePost(
+    id: string,
+    newPostDatas: Omit<PostModel, "id" | "slug" | "createdAt" | "updatedAt">
+  ): Promise<PostModel>;
 }
