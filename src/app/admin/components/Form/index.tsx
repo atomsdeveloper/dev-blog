@@ -10,28 +10,57 @@ import { ImageUploader } from "../ImageUploader";
 // React
 import { useActionState, useEffect, useState } from "react";
 
-// Type
+// Type and Data Transfer Object
 import { dtoPostNotNull, PostDataTransferObjectType } from "@/dto/post/dto";
 
 // Action
 import { createdPostAction } from "@/actions/post/created-post-action";
+import { updatedPostAction } from "@/actions/post/updated-post-action";
+
+// Toast
 import { toast } from "react-toastify";
 
-type FormProps = {
-  post?: PostDataTransferObjectType;
+// Next
+import { useRouter, useSearchParams } from "next/navigation";
+
+type FormPropsUpdatedPost = {
+  mode: "updated";
+  post: PostDataTransferObjectType;
 };
 
-export function Form({ post }: FormProps) {
+type FormPropsCreatedPost = {
+  mode: "created";
+};
+
+type FormProps = FormPropsCreatedPost | FormPropsUpdatedPost;
+
+export function Form(props: FormProps) {
   // TODO: Converte comments from portuguese for english.
   // Assim o state do form sempre é salvo com o último valor enviado e mantido dessa forma.
   // Aqui preciso chamar o dto novamente pois estes dados não são do componente e sim da server action que será executado juntamente com o hook 'useActionState' para salvar os dados em state da action, então, é necessário realizar o dto para os tipos do objeto não colidam.
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const created = searchParams.get("created");
+
+  let post;
+  const { mode } = props;
+  if (mode === "updated") {
+    post = props.post;
+  }
+
   const initialState = {
     valuesFormState: dtoPostNotNull(post),
     errors: [],
   };
 
+  const actionMap = {
+    created: createdPostAction,
+    updated: updatedPostAction,
+  };
+
   const [state, action, isPending] = useActionState(
-    createdPostAction,
+    actionMap[mode],
     initialState
   );
 
@@ -50,6 +79,18 @@ export function Form({ post }: FormProps) {
       toast.success("Post atualizado com sucesso!");
     }
   }, [state.success]);
+
+  // Created
+  useEffect(() => {
+    if (created) {
+      toast.dismiss();
+      toast.success("Post criado com sucesso!");
+
+      const url = new URL(window.location.href);
+      url.searchParams.delete("created");
+      router.replace(url.toString());
+    }
+  }, [created, router]);
 
   const { valuesFormState } = state;
   const [contentValue, setContentValue] = useState(post?.content || "");
@@ -112,14 +153,14 @@ export function Form({ post }: FormProps) {
         {/* Markdown Editor / MARKDOWN */}
         <MarkdownEditor
           labelText="Conteúdo"
-          disabled={false}
+          disabled={isPending}
           textAreaName="content"
           value={contentValue}
           setValue={setContentValue}
         />
 
         {/* Image Uploader / IMAGE UPLOAD*/}
-        <ImageUploader />
+        <ImageUploader disabled={isPending} />
 
         {/* Input Text Area / IMAGE URL */}
         <InputText
