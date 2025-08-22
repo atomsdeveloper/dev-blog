@@ -39,7 +39,7 @@ export default async function PostIdPage({ params }: PostIdPageProps) {
   return (
     <>
       <h1 className="text-3xl font-bold mt-6">Editar Post</h1>
-      <Form post={dtoPostSecurity} />
+      <Form mode="updated" post={dtoPostSecurity} />
     </>
   );
 }
