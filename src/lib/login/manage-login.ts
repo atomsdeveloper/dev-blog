@@ -19,13 +19,8 @@ import { SignJWT, jwtVerify } from "jose";
 // Next
 import { redirect } from "next/navigation";
 
-const jwtSecretKey = JWT_SECRET_KEY_VARIABLE;
-const jwtSecretKeyEncoded = new TextEncoder().encode(jwtSecretKey);
-
-const loginExpirationInMinutes = LOGIN_EXPIRATION_MINUTES_VARIABLE;
-const loginExpirationString = LOGIN_EXPIRATION_STRING_VARIABLE;
-const loginCookieName = LOGIN_COOKIE_NAME_VARIABLE;
-const loginUserName = LOGIN_USER_VARIABLE;
+// From Lib/Jose
+const jwtSecretKeyEncoded = new TextEncoder().encode(JWT_SECRET_KEY_VARIABLE);
 
 // CREATE PASS HASH
 export async function hashPassword(password: string) {
@@ -42,8 +37,7 @@ export async function checkPassword(password: string, base64Hash: string) {
 
 // CREATE COOKIE
 export async function createLoginSession(username: string) {
-  const expiresAt = new Date(Date.now() + loginExpirationInMinutes);
-  console.log(typeof expiresAt);
+  const expiresAt = new Date(Date.now() + LOGIN_EXPIRATION_MINUTES_VARIABLE);
 
   // TODO: Set JWT here.
   const loginSession = await signJWT({ username, expiresAt });
@@ -51,7 +45,7 @@ export async function createLoginSession(username: string) {
   const cookieStore = await cookies(); // Create cookie here.
 
   // Set config cookie.
-  cookieStore.set(loginCookieName, loginSession, {
+  cookieStore.set(LOGIN_COOKIE_NAME_VARIABLE, loginSession, {
     httpOnly: true, // Only read into server and not in browser.
     secure: true, // Only read https.
     sameSite: "strict", // TODO: add comment about semeSite.
@@ -63,15 +57,15 @@ export async function createLoginSession(username: string) {
 export async function deleteLoginSession() {
   const cookieStore = await cookies(); // Create cookie here.
 
-  cookieStore.set(loginCookieName, "", { expires: new Date(0) }); // Config cookie from set expirate date now berfore remove cookie.
-  cookieStore.delete(loginCookieName); // Removing cookie.
+  cookieStore.set(LOGIN_COOKIE_NAME_VARIABLE, "", { expires: new Date(0) }); // Config cookie from set expirate date now berfore remove cookie.
+  cookieStore.delete(LOGIN_COOKIE_NAME_VARIABLE); // Removing cookie.
 }
 
 // CHECK LOGIN SESSION
 export async function getLoginSession() {
   const cookieStore = await cookies();
 
-  const jwt = cookieStore.get(loginCookieName)?.value;
+  const jwt = cookieStore.get(LOGIN_COOKIE_NAME_VARIABLE)?.value;
 
   if (!jwt) return;
 
@@ -84,7 +78,7 @@ export async function checkLoginSession() {
 
   if (!JWTPayload) return false;
 
-  return JWTPayload?.username === loginUserName;
+  return JWTPayload?.username === LOGIN_USER_VARIABLE;
 }
 
 // CHECK USER LOGGED
@@ -109,7 +103,7 @@ export async function signJWT(JWTPayload: JWTPayloadProps) {
       typ: "JWT",
     })
     .setIssuedAt()
-    .setExpirationTime(loginExpirationString)
+    .setExpirationTime(LOGIN_EXPIRATION_STRING_VARIABLE)
     .sign(jwtSecretKeyEncoded);
 }
 
