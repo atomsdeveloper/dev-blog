@@ -1,7 +1,7 @@
 "use client";
 
 // React
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 
 // Next
 import Link from "next/link";
@@ -11,14 +11,33 @@ import { usePathname } from "next/navigation";
 import {
   CircleXIcon,
   FileTextIcon,
+  HourglassIcon,
   HouseIcon,
+  LogOutIcon,
   MenuIcon,
   PenIcon,
 } from "lucide-react";
 
+// Actions
+import { LogoutAction } from "@/actions/login/logout-action";
+
+// Toast
+import { toast } from "react-toastify";
+
 export function Nav() {
   const [wasOpen, setWasOpen] = useState(false);
   const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
+
+  function handleLogout(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+    e.preventDefault();
+
+    startTransition(async () => {
+      toast.dismiss();
+      toast.warn("Você saiu do sistema.");
+      await LogoutAction();
+    });
+  }
 
   // Close the menu when the pathname changes.
   useEffect(() => {
@@ -30,7 +49,6 @@ export function Nav() {
   return (
     <nav
       className={`bg-slate-900 text-slate-100 flex flex-col items-end sm:items-start rounded-lg sm:flex-row sm:flex-wrap
-      ${!wasOpen && "h-10"}
       ${!wasOpen && "h-10"}
       ${!wasOpen && "overflow-hidden sm:overflow-visible sm:h-auto"}
     `}
@@ -63,6 +81,22 @@ export function Nav() {
           <Link href="/admin/post/new" className={classLinks}>
             <PenIcon /> Criar
           </Link>
+        </li>
+
+        <li>
+          <a onClick={(e) => handleLogout(e)} className={classLinks}>
+            {!isPending ? (
+              <>
+                <LogOutIcon />
+                Sair
+              </>
+            ) : (
+              <>
+                <HourglassIcon />
+                Espere...
+              </>
+            )}
+          </a>
         </li>
       </ul>
     </nav>
