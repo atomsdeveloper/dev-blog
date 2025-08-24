@@ -1,4 +1,4 @@
-"user server";
+"use server";
 
 // Manage Login
 import { deleteLoginSession } from "@/lib/login/manage-login";

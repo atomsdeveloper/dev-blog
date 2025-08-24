@@ -57,7 +57,7 @@ export async function createLoginSession(username: string) {
 export async function deleteLoginSession() {
   const cookieStore = await cookies(); // Create cookie here.
 
-  cookieStore.set(LOGIN_COOKIE_NAME_VARIABLE, "", { expires: new Date(0) }); // Config cookie from set expirate date now berfore remove cookie.
+  cookieStore.set(LOGIN_COOKIE_NAME_VARIABLE, "", { expires: new Date(0) }); // Config cookie from set expirate date now berfore remove cookie (prevent).
   cookieStore.delete(LOGIN_COOKIE_NAME_VARIABLE); // Removing cookie.
 }
 
