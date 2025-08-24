@@ -9,6 +9,7 @@ import {
 
 // Login Checks
 import { checkPassword, createLoginSession } from "@/lib/login/manage-login";
+import { asyncDelay } from "@/utils/async-delay";
 
 // Next
 import { redirect } from "next/navigation";
@@ -25,6 +26,8 @@ export async function LoginAction(state: LoginActionProps, formData: FormData) {
       error: "Login não permitido",
     };
   }
+
+  asyncDelay(3000);
 
   if (!(formData instanceof FormData)) {
     return {
