@@ -5,6 +5,7 @@ import {
   IMAGE_UPLOAD_DIRECTORY_VARIABLE,
   IMAGE_UPLOADER_MAX_SIZE_VARIABLE,
 } from "@/lib/constants";
+import { checkLoginSession } from "@/lib/login/manage-login";
 
 import { mkdir, writeFile } from "fs/promises";
 import { resolve } from "path";
@@ -17,9 +18,13 @@ type uploadImageActionProps = {
 export async function uploadImageAction(
   formData: FormData
 ): Promise<uploadImageActionProps> {
+  const hasUserLogged = checkLoginSession();
+
   const responseReturn = { url: "", error: "" };
 
-  // TODO: Check has user logged for send file server.
+  if (!hasUserLogged) {
+    return { ...responseReturn, error: "Faça para continuar." };
+  }
 
   if (!(formData instanceof FormData)) {
     return { ...responseReturn, error: "Dados inválidos." };

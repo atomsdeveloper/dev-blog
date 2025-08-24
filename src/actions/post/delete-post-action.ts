@@ -3,9 +3,17 @@
 // Repositories
 import { revalidateTag } from "next/cache";
 import { deletePostAdmin } from "@/lib/post/queries/admin";
+import { checkLoginSession } from "@/lib/login/manage-login";
 
 export async function deletePostAction(id: string) {
   // TODO: Check if user logged.
+  const hasUserLogged = checkLoginSession();
+
+  if (!hasUserLogged) {
+    return {
+      errors: ["Faça login novamente"],
+    };
+  }
 
   if (!id || typeof id !== "string") {
     return {

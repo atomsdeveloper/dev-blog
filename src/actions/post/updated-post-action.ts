@@ -16,6 +16,7 @@ import { makeRandomValue } from "@/utils/make-random-value";
 // Instance
 import { updatedPostAdmin } from "@/lib/post/queries/admin";
 import { extractField } from "@/utils/extract-post-id";
+import { checkLoginSession } from "@/lib/login/manage-login";
 
 type UpdatePostActionProps = {
   valuesFormState: PostDataTransferObjectType; // Valores recebidos
@@ -27,8 +28,8 @@ export async function updatedPostAction(
   prevState: UpdatePostActionProps,
   formData: FormData // Valores enviados para serem salvos e manipulados.
 ): Promise<UpdatePostActionProps> {
-  console.log("Update Post");
   // TODO: Check has user logged.
+  const hasUserLogged = checkLoginSession();
 
   if (!(formData instanceof FormData)) {
     return {
@@ -58,6 +59,13 @@ export async function updatedPostAction(
   const returnZodCheckDatasForm = PostUpdateSchema.safeParse(
     convertFormDataEntriesTypeForObj
   );
+
+  if (!hasUserLogged) {
+    return {
+      valuesFormState: dtoPostNotNull(convertFormDataEntriesTypeForObj),
+      errors: ["Faça login em outra aba antes de salvar"],
+    };
+  }
 
   if (!returnZodCheckDatasForm.success) {
     const arrayErrorsZod = getZodConvertErrorMessageArray(

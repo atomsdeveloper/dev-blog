@@ -1,9 +1,16 @@
 "use server";
 
-import { dtoPostNotNull, PostDataTransferObjectType } from "@/dto/post/dto";
+import {
+  dtoPost,
+  dtoPostNotNull,
+  PostDataTransferObjectType,
+} from "@/dto/post/dto";
 
 // Check
 import { PostCreateSchema } from "@/lib/post/check";
+
+// Action
+import { createdPostAdmin } from "@/lib/post/queries/admin";
 
 // Model
 import { PostModel } from "@/model/post/post-model";
@@ -19,7 +26,9 @@ import { redirect } from "next/navigation";
 // UUID
 import { v4 as uuid } from "uuid";
 import { getZodConvertErrorMessageArray } from "@/utils/get-zod-error-msg";
-import { createdPostAdmin } from "@/lib/post/queries/admin";
+
+// Manage user
+import { checkLoginSession } from "@/lib/login/manage-login";
 
 type CreatePostActionProps = {
   valuesFormState: PostDataTransferObjectType; // Valores recebidos
@@ -31,8 +40,8 @@ export async function createdPostAction(
   prevState: CreatePostActionProps,
   formData: FormData // Valores enviados para serem salvos e manipulados.
 ): Promise<CreatePostActionProps> {
-  console.log("Create Post");
   // TODO: Check has user logged.
+  const hasUserLogged = checkLoginSession();
 
   if (!(formData instanceof FormData)) {
     return {
@@ -55,6 +64,13 @@ export async function createdPostAction(
   const returnZodCheckDatasForm = PostCreateSchema.safeParse(
     convertFormDataEntriesTypeForObj
   );
+
+  if (!hasUserLogged) {
+    return {
+      valuesFormState: dtoPostNotNull(convertFormDataEntriesTypeForObj),
+      errors: ["Faça login em outra aba antes de salvar"],
+    };
+  }
 
   if (!returnZodCheckDatasForm.success) {
     const arrayErrorsZod = getZodConvertErrorMessageArray(
