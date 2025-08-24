@@ -7,6 +7,7 @@ import {
   LOGIN_COOKIE_NAME_VARIABLE,
   LOGIN_EXPIRATION_MINUTES_VARIABLE,
   LOGIN_EXPIRATION_STRING_VARIABLE,
+  LOGIN_USER_VARIABLE,
 } from "../constants";
 
 // Next
@@ -15,12 +16,16 @@ import { cookies } from "next/headers";
 // Jose JWT
 import { SignJWT, jwtVerify } from "jose";
 
+// Next
+import { redirect } from "next/navigation";
+
 const jwtSecretKey = JWT_SECRET_KEY_VARIABLE;
 const jwtSecretKeyEncoded = new TextEncoder().encode(jwtSecretKey);
 
 const loginExpirationInMinutes = LOGIN_EXPIRATION_MINUTES_VARIABLE;
 const loginExpirationString = LOGIN_EXPIRATION_STRING_VARIABLE;
 const loginCookieName = LOGIN_COOKIE_NAME_VARIABLE;
+const loginUserName = LOGIN_USER_VARIABLE;
 
 // CREATE PASS HASH
 export async function hashPassword(password: string) {
@@ -62,6 +67,35 @@ export async function deleteLoginSession() {
   cookieStore.delete(loginCookieName); // Removing cookie.
 }
 
+// CHECK LOGIN SESSION
+export async function getLoginSession() {
+  const cookieStore = await cookies();
+
+  const jwt = cookieStore.get(loginCookieName)?.value;
+
+  if (!jwt) return;
+
+  return checkJWT(jwt);
+}
+
+// CHECK USER NAME
+export async function checkLoginSession() {
+  const JWTPayload = await getLoginSession();
+
+  if (!JWTPayload) return false;
+
+  return JWTPayload?.username === loginUserName;
+}
+
+// CHECK USER LOGGED
+export async function requireLoginSessionOrRedirect() {
+  const hasAuth = await getLoginSession();
+
+  if (!hasAuth) {
+    redirect("/admin/login");
+  }
+}
+
 // SIGN JWT
 type JWTPayloadProps = {
   username: string;
@@ -77,4 +111,21 @@ export async function signJWT(JWTPayload: JWTPayloadProps) {
     .setIssuedAt()
     .setExpirationTime(loginExpirationString)
     .sign(jwtSecretKeyEncoded);
+}
+
+// VERIFY JWT
+export async function checkJWT(payloadJWT?: string) {
+  if (!payloadJWT) {
+    return (payloadJWT = "");
+  }
+
+  try {
+    const { payload } = await jwtVerify(payloadJWT, jwtSecretKeyEncoded, {
+      algorithms: ["HS256"],
+    });
+
+    return payload;
+  } catch {
+    console.log("Token pe inválido.");
+  }
 }
