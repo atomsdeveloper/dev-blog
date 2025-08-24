@@ -7,7 +7,7 @@ import { uploadImageAction } from "@/actions/upload/upload-image-action";
 import { Button } from "@/app/components/Button";
 
 // Constants
-import { IMAGE_UPLOADER_MAX_SIZE } from "@/lib/constants";
+import { IMAGE_UPLOADER_MAX_SIZE_VARIABLE } from "@/lib/constants";
 
 // Icons
 import { ImageUpIcon } from "lucide-react";
@@ -54,11 +54,11 @@ export const ImageUploader = ({ disabled = false }: ImageUploaderProps) => {
       return;
     }
 
-    if (file.size > IMAGE_UPLOADER_MAX_SIZE) {
+    if (file.size > IMAGE_UPLOADER_MAX_SIZE_VARIABLE) {
       toast.dismiss();
       toast.warning(
         `Imagem é muito grande. O tamanho máximo é ${
-          IMAGE_UPLOADER_MAX_SIZE / 1024 + "KB"
+          IMAGE_UPLOADER_MAX_SIZE_VARIABLE / 1024 + "KB"
         }, Tente novamente!.`
       );
 
