@@ -1,5 +1,7 @@
+"use client";
+
 // Components
-import { LoginAction } from "@/actions/admin/login-action";
+import { LoginAction } from "@/actions/login/login-action";
 import { Button } from "@/app/components/Button";
 import { InputText } from "@/app/components/InputText";
 
@@ -25,31 +27,42 @@ export const LoginForm = () => {
   }, [state]);
 
   return (
-    <div className="flex items-center justify-center max-w-sm mt-16 mb-32 mx-auto">
-      <form action={action} className="flex-1 flex flex-col gap-6">
+    <div className="flex items-center flex-col justify-center max-w-[300px] mx-auto">
+      <form action={action} className="flex-1 flex flex-col gap-4 w-full">
         <InputText
           type="text"
-          labelText="username"
+          labelText="Usuário"
+          name="username"
           defaultValue={state.username}
           disabled={isPending}
         />
         <InputText
           type="text"
-          labelText="password"
-          defaultValue=""
+          labelText="Senha"
+          name="password"
           disabled={isPending}
         />
+
+        <Button
+          variant="default"
+          type="submit"
+          disabled={isPending}
+          size="md"
+          className="mt-4"
+        >
+          Entrar Blog
+        </Button>
       </form>
 
-      <Button variant="default" disabled={isPending} size="md" className="mt-4">
-        Entrar
-      </Button>
-
-      {!!state.error ? (
-        <span className="text-red-500 text-sm"> {state.error} </span>
-      ) : (
-        ""
-      )}
+      <>
+        {!!state.error ? (
+          <span className="text-red-500 text-sm mt-4"> {state.error} </span>
+        ) : (
+          <span className="text-yellow-600 text-sm mt-4">
+            Digite os dados para fazer login.
+          </span>
+        )}
+      </>
     </div>
   );
 };
