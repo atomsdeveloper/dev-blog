@@ -1,7 +1,11 @@
 "use server";
 
 // Constants
-import { LOGIN_PASS_VARIABLE, LOGIN_USER_VARIABLE } from "@/lib/constants";
+import {
+  ALLOW_LOGIN_VARIABLE,
+  LOGIN_PASS_VARIABLE,
+  LOGIN_USER_VARIABLE,
+} from "@/lib/constants";
 
 // Login Checks
 import { checkPassword, createLoginSession } from "@/lib/login/manage-login";
@@ -15,7 +19,12 @@ type LoginActionProps = {
 };
 
 export async function LoginAction(state: LoginActionProps, formData: FormData) {
-  console.log("Login call action.");
+  if (!ALLOW_LOGIN_VARIABLE) {
+    return {
+      username: "",
+      error: "Login não permitido",
+    };
+  }
 
   if (!(formData instanceof FormData)) {
     return {

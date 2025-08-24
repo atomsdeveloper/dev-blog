@@ -29,4 +29,6 @@ export const LOGIN_USER_VARIABLE = process.env.LOGIN_USER || "";
 
 export const LOGIN_PASS_VARIABLE = process.env.LOGIN_PASS || "";
 
-export const ALLOW_LOGIN_VARIABLE = Number(process.env.ALLOW_LOGIN || 0);
+export const ALLOW_LOGIN_VARIABLE = Boolean(
+  Number(process.env.ALLOW_LOGIN || 0)
+);
