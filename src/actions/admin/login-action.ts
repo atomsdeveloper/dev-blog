@@ -5,10 +5,10 @@ type LoginActionProps = {
   error: string;
 };
 
-export async function LoginAction({ username, error }: LoginActionProps) {
+export async function LoginAction(state: LoginActionProps, formData: FormData) {
   asyncDelay(5000);
 
-  console.log("User" + username, "Error" + error);
+  console.log("User" + state.username, "Error" + state.error);
 
   return {
     username: "",
