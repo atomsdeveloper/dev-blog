@@ -37,7 +37,7 @@ export const LoginForm = () => {
           disabled={isPending}
         />
         <InputText
-          type="text"
+          type="password"
           labelText="Senha"
           name="password"
           disabled={isPending}
