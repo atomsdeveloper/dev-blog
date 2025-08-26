@@ -20,7 +20,7 @@ type LoginActionProps = {
 };
 
 export async function LoginAction(state: LoginActionProps, formData: FormData) {
-  if (!ALLOW_LOGIN_VARIABLE) {
+  if (!!ALLOW_LOGIN_VARIABLE) {
     return {
       username: "",
       error: "Login não permitido",
