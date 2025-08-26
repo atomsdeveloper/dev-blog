@@ -1,24 +1,21 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function extractField<T = any>(
-  formData: FormData,
-  field: string
-): T | null {
-  try {
-    // procura alguma chave que comece com "$ACTION_" e termine em ":1"
-    const actionKey = Array.from(formData.keys()).find(
-      (k) => k.startsWith("$ACTION_") && k.endsWith(":1")
-    );
+export function extractId(formData: FormData): string | null {
+  for (const [key, value] of formData.entries()) {
+    if (typeof value === "string" && key === "$ACTION_1:1") {
+      try {
+        const parsedValueForArrayObject = JSON.parse(value as string);
 
-    if (!actionKey) return null;
+        if (parsedValueForArrayObject?.id) return parsedValueForArrayObject.id;
 
-    // pega o valor bruto e parseia
-    const raw = formData.get(actionKey) as string;
-    if (!raw) return null;
-
-    const parsed = JSON.parse(raw);
-    return parsed[0]?.valuesFormState?.[field] ?? null;
-  } catch (err) {
-    console.error("Erro ao extrair campo:", err);
-    return null;
+        if (
+          Array.isArray(parsedValueForArrayObject) &&
+          parsedValueForArrayObject[0]?.valuesFormState?.id
+        ) {
+          return parsedValueForArrayObject[0].valuesFormState.id;
+        }
+      } catch (e: unknown) {
+        throw new Error(String(e));
+      }
+    }
   }
+  return null;
 }
