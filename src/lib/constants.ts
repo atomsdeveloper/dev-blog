@@ -11,7 +11,7 @@ export const IMAGE_UPLOAD_DIRECTORY_VARIABLE =
   process.env.IMAGE_UPLOAD_DIRECTORY?.toString() ?? "";
 
 export const IMAGE_SERVER_DOMAIN_VARIABLE =
-  process.env.IMAGE_UPLOAD_DIRECTORY?.toString() || "";
+  process.env.IMAGE_SERVER_DOMAIN?.toString() || "";
 
 export const JWT_SECRET_KEY_VARIABLE = process.env.JWT_SECRET_KEY || "";
 
