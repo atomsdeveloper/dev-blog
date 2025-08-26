@@ -26,6 +26,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 type FormPropsUpdatedPost = {
   mode: "updated";
   post: PostDataTransferObjectType;
+  postId: string;
 };
 
 type FormPropsCreatedPost = {
@@ -35,13 +36,14 @@ type FormPropsCreatedPost = {
 type FormProps = FormPropsCreatedPost | FormPropsUpdatedPost;
 
 export function Form(props: FormProps) {
-  // TODO: Converte comments from portuguese for english.
-  // Assim o state do form sempre é salvo com o último valor enviado e mantido dessa forma.
-  // Aqui preciso chamar o dto novamente pois estes dados não são do componente e sim da server action que será executado juntamente com o hook 'useActionState' para salvar os dados em state da action, então, é necessário realizar o dto para os tipos do objeto não colidam.
-
   const router = useRouter();
   const searchParams = useSearchParams();
   const created = searchParams.get("created");
+
+  let hasPostId;
+  if (props.mode === "updated" && props.postId) {
+    hasPostId = props.postId;
+  }
 
   let post;
   const { mode } = props;
@@ -52,6 +54,7 @@ export function Form(props: FormProps) {
   const initialState = {
     valuesFormState: dtoPostNotNull(post),
     errors: [],
+    postId: hasPostId,
   };
 
   const actionMap = {
@@ -104,8 +107,8 @@ export function Form(props: FormProps) {
           name="id"
           placeholder={"Id gerado pelo sistema."}
           type="text"
-          defaultValue={valuesFormState.id}
-          disabled={true}
+          defaultValue={hasPostId}
+          disabled={isPending}
           readOnly
         />
 
@@ -116,7 +119,7 @@ export function Form(props: FormProps) {
           placeholder={"Slug gerada pelo sistema."}
           type="text"
           defaultValue={valuesFormState.slug}
-          disabled={true}
+          disabled={isPending}
           readOnly
         />
 

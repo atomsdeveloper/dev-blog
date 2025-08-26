@@ -19,27 +19,28 @@ export const metadata: Metadata = {
 };
 
 type PostIdPageProps = {
-  params: Promise<{
-    id: string;
-  }>;
+  params: Promise<{ id: string }>;
 };
-
 export default async function PostIdPage({ params }: PostIdPageProps) {
   const { id } = await params;
+
   const post = await findPostByIdCache(id).catch(() => undefined);
 
   if (!post) {
     return notFound();
   }
-  // TODO: Convert comments from portuguese for english.
-  // Data Transfer Object
-  // Neste caso estou passando o post que busco do banco de dados por isso é necessário converter os os dados para serem retornados somente os dados necessários.
+
   const dtoPostSecurity = dtoPost(post);
 
   return (
     <>
       <h1 className="text-3xl font-bold mt-6">Editar Post</h1>
-      <Form mode="updated" post={dtoPostSecurity} />
+      <Form
+        key={dtoPostSecurity.id}
+        mode="updated"
+        post={dtoPostSecurity}
+        postId={id}
+      />
     </>
   );
 }

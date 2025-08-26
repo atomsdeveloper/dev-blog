@@ -3,32 +3,29 @@
 // Data Transfer Object
 import { dtoPostNotNull, PostDataTransferObjectType } from "@/dto/post/dto";
 
-// Check
-import { PostUpdateSchema } from "@/lib/post/check";
-
 // Next
 import { revalidateTag } from "next/cache";
 
 // Utils
 import { getZodConvertErrorMessageArray } from "@/utils/get-zod-error-msg";
 import { makeRandomValue } from "@/utils/make-random-value";
+import { extractId } from "@/utils/extract-post-id";
 
 // Instance
+import { PostUpdateSchema } from "@/lib/post/check";
 import { updatedPostAdmin } from "@/lib/post/queries/admin";
-import { extractField } from "@/utils/extract-post-id";
 import { checkLoginSession } from "@/lib/login/manage-login";
 
 type UpdatePostActionProps = {
-  valuesFormState: PostDataTransferObjectType; // Valores recebidos
+  valuesFormState: PostDataTransferObjectType;
   errors: string[];
   success?: string;
 };
 
 export async function updatedPostAction(
-  prevState: UpdatePostActionProps,
+  prevState: UpdatePostActionProps & { postId?: string },
   formData: FormData // Valores enviados para serem salvos e manipulados.
 ): Promise<UpdatePostActionProps> {
-  // TODO: Check has user logged.
   const hasUserLogged = checkLoginSession();
 
   if (!(formData instanceof FormData)) {
@@ -38,18 +35,22 @@ export async function updatedPostAction(
     };
   }
 
+  const id = extractId(formData) || prevState.postId;
+
+  console.log(id);
+
+  if (!id || typeof id !== "string") {
+    return {
+      valuesFormState: { ...prevState.valuesFormState },
+      errors: ["ID não encontrado"],
+    };
+  }
+
   const convertFormDataEntriesTypeForObj = Object.fromEntries(
     formData.entries()
   );
 
-  const postId = extractField<string>(formData, "id");
-  console.log(postId);
-
-  if (!postId) {
-    throw new Error("Id não encontrado.");
-  }
-
-  // Remove fields of type File
+  // Check fields of type File and remove type.
   for (const key in convertFormDataEntriesTypeForObj) {
     if (convertFormDataEntriesTypeForObj[key] instanceof File) {
       delete convertFormDataEntriesTypeForObj[key];
@@ -86,7 +87,7 @@ export async function updatedPostAction(
 
   let post;
   try {
-    post = await updatedPostAdmin(postId, newPost);
+    post = await updatedPostAdmin(id, newPost);
   } catch (e: unknown) {
     if (e instanceof Error) {
       return {
@@ -100,8 +101,8 @@ export async function updatedPostAction(
     };
   }
 
+  revalidateTag(`/admin/post/${id}`);
   revalidateTag("posts");
-  revalidateTag(`/admin/post/${postId}`);
 
   return {
     errors: [],
