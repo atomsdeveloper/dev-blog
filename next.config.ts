@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ["localhost"],
+    domains: ["localhost", "https://dev-blog-eight-drab.vercel.app/"],
   },
 };
 
