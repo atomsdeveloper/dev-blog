@@ -13,6 +13,7 @@ import { findPostByIdCache } from "@/lib/post/queries/admin";
 
 // Action
 import { updatedPostAction } from "@/actions/post/updated-post-action";
+import { uploadImageAction } from "@/actions/upload/upload-image-action";
 
 export const dynamic = "force-dynamic";
 
@@ -44,6 +45,7 @@ export default async function PostIdPage({ params }: PostIdPageProps) {
         post={dtoPostSecurity}
         postId={id}
         updatePost={updatedPostAction}
+        uploadImageAction={uploadImageAction}
       />
     </>
   );

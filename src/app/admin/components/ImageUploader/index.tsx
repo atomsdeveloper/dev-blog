@@ -1,8 +1,5 @@
 "use client";
 
-// Action
-import { uploadImageAction } from "@/actions/upload/upload-image-action";
-
 // Components
 import { Button } from "@/app/components/Button";
 
@@ -23,9 +20,14 @@ import Image from "next/image";
 
 type ImageUploaderProps = {
   disabled?: boolean;
+  uploadAction: (
+    formData: FormData
+  ) => Promise<{ url: string; error?: string }>;
 };
-
-export const ImageUploader = ({ disabled = false }: ImageUploaderProps) => {
+export const ImageUploader = ({
+  disabled = false,
+  uploadAction,
+}: ImageUploaderProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [hasPending, startTransaction] = useTransition();
   const [hasImage, setHasImage] = useState<string>("");
@@ -73,7 +75,7 @@ export const ImageUploader = ({ disabled = false }: ImageUploaderProps) => {
     startTransaction(async () => {
       toast.dismiss();
 
-      const response = await uploadImageAction(formData);
+      const response = await uploadAction(formData);
 
       if (response.error && response.url === "") {
         toast.error(response.error);

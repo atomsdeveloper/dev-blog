@@ -33,6 +33,9 @@ type FormPropsUpdatedPost = {
     prevState: CreateActionProps,
     formData: FormData
   ) => Promise<CreateActionProps>;
+  uploadImageAction: (
+    formData: FormData
+  ) => Promise<{ url: string; error?: string }>;
 };
 
 type FormPropsCreatedPost = {
@@ -41,6 +44,9 @@ type FormPropsCreatedPost = {
     prevState: CreateActionProps,
     formData: FormData
   ) => Promise<CreateActionProps>;
+  uploadImageAction: (
+    formData: FormData
+  ) => Promise<{ url: string; error?: string }>;
 };
 
 type FormProps = FormPropsCreatedPost | FormPropsUpdatedPost;
@@ -173,7 +179,10 @@ export function Form(props: FormProps) {
         />
 
         {/* Image Uploader / IMAGE UPLOAD*/}
-        <ImageUploader disabled={isPending} />
+        <ImageUploader
+          disabled={isPending}
+          uploadAction={props.uploadImageAction}
+        />
 
         {/* Input Text Area / IMAGE URL */}
         <InputText
