@@ -1,10 +1,6 @@
 "use server";
 
-import {
-  dtoPost,
-  dtoPostNotNull,
-  PostDataTransferObjectType,
-} from "@/dto/post/dto";
+import { dtoPostNotNull, PostDataTransferObjectType } from "@/dto/post/dto";
 
 // Check
 import { PostCreateSchema } from "@/lib/post/check";
