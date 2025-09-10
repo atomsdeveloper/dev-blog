@@ -83,8 +83,8 @@ export async function createdPostAction(
 
   const newPost: PostModel = {
     ...checkAllDatasOk,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
+    createdAt: new Date(),
+    updatedAt: new Date(),
     id: uuid(),
     slug: makeRandomSlug(checkAllDatasOk.title),
   };
