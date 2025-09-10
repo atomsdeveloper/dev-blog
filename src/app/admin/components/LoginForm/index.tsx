@@ -41,6 +41,7 @@ export const LoginForm = ({
     if (state?.error !== "") {
       toast.dismiss();
       toast.error("Usuário ou Senha inválidos.");
+      return;
     }
 
     router.push("/admin/post");
