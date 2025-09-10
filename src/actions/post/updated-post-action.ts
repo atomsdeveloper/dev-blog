@@ -37,8 +37,6 @@ export async function updatedPostAction(
 
   const id = extractId(formData) || prevState.postId;
 
-  console.log(id);
-
   if (!id || typeof id !== "string") {
     return {
       valuesFormState: { ...prevState.valuesFormState },

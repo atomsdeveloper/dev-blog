@@ -143,7 +143,7 @@ export function Form(props: FormProps) {
           disabled={isPending}
         />
 
-        {/* Input Text Area / TITLE */}
+        {/* Input Text Area / Excerpt */}
         <InputText
           labelText="Excerpt do Post"
           name="excerpt"

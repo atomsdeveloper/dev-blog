@@ -16,7 +16,9 @@ export const dtoPostNotNull = (
     coverImageUrl: post?.coverImageUrl || "",
     published: post?.published || false,
     author: post?.author || "",
-    createdAt: post?.createdAt || new Date(),
+    createdAt: post?.createdAt
+      ? new Date(post.createdAt)
+      : new Date(Date.now()),
   };
 };
 
