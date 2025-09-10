@@ -152,7 +152,7 @@ export class DrizzlePostRepository implements PostRepository {
       throw new Error("Post não existe");
     }
 
-    const updatedAt = new Date().toISOString();
+    const updatedAt = new Date();
     const newPost = {
       title: newPostDatas.title,
       excerpt: newPostDatas.excerpt,
