@@ -14,7 +14,7 @@ type SinglePostProps = {
   title: string;
   slug: string;
   author: string;
-  createdAt: string;
+  createdAt: Date;
   excerpt: string;
   content: string;
 };

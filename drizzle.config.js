@@ -1,9 +1,13 @@
+// Config
 import { defineConfig } from "drizzle-kit";
 
-export default defineConfig({
-  out: "./src/db/drizzle/migrations",
+import { configDotenv } from "dotenv";
+configDotenv({ path: "./.env.local" });
+
+module.exports = defineConfig({
   schema: "./src/db/drizzle/schemas.ts",
-  dialect: process.env.DB_DIALECT,
+  out: "./src/db/drizzle/migrations",
+  dialect: "postgresql",
   dbCredentials: {
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
@@ -11,7 +15,5 @@ export default defineConfig({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
   },
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  ssl: { rejectUnauthorized: false },
 });

@@ -50,6 +50,8 @@ export default async function PostSlugPage({ params }: PostSlugPageProps) {
     notFound();
   }
 
+  const createdAtFormat = new Date(post?.createdAt);
+
   return (
     <Suspense
       fallback={<SpinLoader SpinLoaderContainerClass="h-[calc(100vh-64px)]" />}
@@ -58,7 +60,7 @@ export default async function PostSlugPage({ params }: PostSlugPageProps) {
         slug={slug}
         title={post?.title}
         author={post?.author}
-        createdAt={post?.createdAt}
+        createdAt={createdAtFormat}
         altCoverImageUrl={post?.title}
         coverImageUrl={post?.coverImageUrl}
         excerpt={post?.excerpt}

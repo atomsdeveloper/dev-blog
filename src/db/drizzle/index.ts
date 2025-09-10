@@ -1,3 +1,7 @@
+// Config
+import { configDotenv } from "dotenv";
+configDotenv({ path: "./.env.local" });
+
 // Drizzle
 import { drizzle } from "drizzle-orm/node-postgres";
 
@@ -13,7 +17,7 @@ const pool = new Pool({
   database: process.env.DB_NAME,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  ssl: { rejectUnauthorized: false }, // se precisar do SSL do Neon
+  ssl: { rejectUnauthorized: false },
 });
 
 export const drizzleDatabase = drizzle(pool, {
