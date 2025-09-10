@@ -35,11 +35,14 @@ export const LoginForm = () => {
           name="username"
           defaultValue={state.username}
           disabled={isPending}
+          autoComplete="username"
         />
         <InputText
           type="password"
           labelText="Senha"
           name="password"
+          defaultValue={""}
+          autoComplete="current-password"
           disabled={isPending}
         />
 
