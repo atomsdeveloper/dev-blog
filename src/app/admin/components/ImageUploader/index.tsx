@@ -88,6 +88,8 @@ export const ImageUploader = ({
     });
   };
 
+  console.log(hasImage);
+
   return (
     <div className="flex flex-col gap-2 text-sm ">
       <Button
@@ -125,6 +127,7 @@ export const ImageUploader = ({
           </div>
 
           <Image
+            loader={({ src }) => src}
             src={hasImage}
             aria-description="Preview da imagem enviada para o servidor."
             alt="Imagem."
