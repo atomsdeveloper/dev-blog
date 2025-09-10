@@ -1,7 +1,6 @@
 "use server";
 
 import {
-  IMAGE_SERVER_DOMAIN_VARIABLE,
   IMAGE_UPLOAD_DIRECTORY_VARIABLE,
   IMAGE_UPLOADER_MAX_SIZE_VARIABLE,
 } from "@/lib/constants";
@@ -73,7 +72,7 @@ export async function uploadImageAction(
   await writeFile(pathForUploadImagePlusFile, buffer);
 
   // Generate URL to return client.
-  const url = `${IMAGE_SERVER_DOMAIN_VARIABLE}/${generateImageName}`;
+  const url = `${IMAGE_UPLOAD_DIRECTORY_VARIABLE}/${generateImageName}`;
 
   return { ...responseReturn, url };
 }
