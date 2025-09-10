@@ -11,7 +11,7 @@ export const postsTable = pgTable("posts", {
   excerpt: text("excerpt").notNull(), // corrigido 'excert' -> 'excerpt'
   author: text("author").notNull(),
   content: text("content").notNull(),
-  coverImageUrl: text("coverImageUrl").notNull(),
+  coverImageUrl: text("cover_img_url").notNull(),
   published: boolean("published").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
