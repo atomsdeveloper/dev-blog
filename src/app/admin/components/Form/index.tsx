@@ -13,24 +13,34 @@ import { useActionState, useEffect, useState } from "react";
 // Type and Data Transfer Object
 import { dtoPostNotNull, PostDataTransferObjectType } from "@/dto/post/dto";
 
-// Action
-import { createdPostAction } from "@/actions/post/created-post-action";
-import { updatedPostAction } from "@/actions/post/updated-post-action";
-
 // Toast
 import { toast } from "react-toastify";
 
 // Next
 import { useRouter, useSearchParams } from "next/navigation";
 
+type CreateActionProps = {
+  valuesFormState: PostDataTransferObjectType; // Valores recebidos
+  errors: string[];
+  success?: string;
+};
+
 type FormPropsUpdatedPost = {
   mode: "updated";
   post: PostDataTransferObjectType;
   postId: string;
+  updatePost?: (
+    prevState: CreateActionProps,
+    formData: FormData
+  ) => Promise<CreateActionProps>;
 };
 
 type FormPropsCreatedPost = {
   mode: "created";
+  createPost?: (
+    prevState: CreateActionProps,
+    formData: FormData
+  ) => Promise<CreateActionProps>;
 };
 
 type FormProps = FormPropsCreatedPost | FormPropsUpdatedPost;
@@ -57,15 +67,15 @@ export function Form(props: FormProps) {
     postId: hasPostId,
   };
 
-  const actionMap = {
-    created: createdPostAction,
-    updated: updatedPostAction,
-  };
+  const noopAction = async (state: CreateActionProps, formData: FormData) =>
+    state;
 
-  const [state, action, isPending] = useActionState(
-    actionMap[mode],
-    initialState
-  );
+  const actionMode =
+    mode === "updated"
+      ? props.updatePost ?? noopAction
+      : props.createPost ?? noopAction;
+
+  const [state, action, isPending] = useActionState(actionMode, initialState);
 
   // Error
   useEffect(() => {

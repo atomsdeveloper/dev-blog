@@ -11,6 +11,9 @@ import { notFound } from "next/navigation";
 // Query
 import { findPostByIdCache } from "@/lib/post/queries/admin";
 
+// Action
+import { updatedPostAction } from "@/actions/post/updated-post-action";
+
 export const dynamic = "force-dynamic";
 
 // Metadata
@@ -40,6 +43,7 @@ export default async function PostIdPage({ params }: PostIdPageProps) {
         mode="updated"
         post={dtoPostSecurity}
         postId={id}
+        updatePost={updatedPostAction}
       />
     </>
   );
