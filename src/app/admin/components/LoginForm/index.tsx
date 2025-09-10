@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 export type LoginActionState = {
   username?: string;
   error: string;
+  success: string;
 };
 
 export type LoginActionType = (
@@ -33,18 +34,28 @@ export const LoginForm = ({
   const initialState: LoginActionState = {
     username: "",
     error: "",
+    success: "",
   };
 
   const [state, action, isPending] = useActionState(LoginAction, initialState);
 
+  // Error
   useEffect(() => {
     if (state?.error !== "") {
       toast.dismiss();
-      toast.error("Usuário ou Senha inválidos.");
+      toast.error(`${state?.error}`);
       return;
     }
+  }, [state]);
 
-    router.push("/admin/post");
+  // Success
+  useEffect(() => {
+    if (state?.success !== "") {
+      toast.dismiss();
+      toast.success(`${state?.success}`);
+
+      router.push("/admin/post");
+    }
   }, [state, router]);
 
   return (

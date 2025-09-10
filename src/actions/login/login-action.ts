@@ -14,6 +14,7 @@ import { asyncDelay } from "@/utils/async-delay";
 type LoginActionProps = {
   username?: string;
   error: string;
+  success: string;
 };
 
 export async function LoginAction(
@@ -24,6 +25,7 @@ export async function LoginAction(
     return {
       username: "",
       error: "Login não permitido",
+      success: "",
     };
   }
 
@@ -33,6 +35,7 @@ export async function LoginAction(
     return {
       ...state,
       error: "Dados inválidos",
+      success: "",
     };
   }
 
@@ -45,6 +48,7 @@ export async function LoginAction(
       ...state,
       username,
       error: "Dígite o usuário e a senha",
+      success: "",
     };
   }
 
@@ -57,12 +61,17 @@ export async function LoginAction(
       ...state,
       username,
       error: "Usuário ou senha inválidos",
+      success: "",
     };
   }
 
   // Generate cookies for user logged.
   await createLoginSession(username);
 
-  // Redirect user to pages from admin.
-  return;
+  return {
+    ...state,
+    username,
+    error: "",
+    success: "Usuário logado com sucesso.",
+  };
 }
