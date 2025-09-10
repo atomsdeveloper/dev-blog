@@ -11,9 +11,6 @@ import {
 import { checkPassword, createLoginSession } from "@/lib/login/manage-login";
 import { asyncDelay } from "@/utils/async-delay";
 
-// Next
-import { redirect } from "next/navigation";
-
 type LoginActionProps = {
   username?: string;
   error: string;
@@ -67,5 +64,5 @@ export async function LoginAction(
   await createLoginSession(username);
 
   // Redirect user to pages from admin.
-  redirect("/admin/post");
+  return;
 }

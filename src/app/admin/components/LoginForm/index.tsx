@@ -4,6 +4,9 @@
 import { Button } from "@/app/components/Button";
 import { InputText } from "@/app/components/InputText";
 
+// Next
+import { useRouter } from "next/navigation";
+
 // Hook
 import { useActionState, useEffect } from "react";
 
@@ -25,6 +28,8 @@ export const LoginForm = ({
 }: {
   LoginAction: LoginActionType;
 }) => {
+  const router = useRouter();
+
   const initialState: LoginActionState = {
     username: "",
     error: "",
@@ -37,7 +42,9 @@ export const LoginForm = ({
       toast.dismiss();
       toast.error("Usuário ou Senha inválidos.");
     }
-  }, [state]);
+
+    router.push("/admin/post");
+  }, [state, router]);
 
   return (
     <div className="flex items-center flex-col justify-center max-w-[300px] mx-auto">
