@@ -1,12 +1,12 @@
 {
   "version": "7",
-  "dialect": "sqlite",
+  "dialect": "postgresql",
   "entries": [
     {
       "idx": 0,
-      "version": "6",
-      "when": 1753484882308,
-      "tag": "0000_groovy_madrox",
+      "version": "7",
+      "when": 1757534416433,
+      "tag": "0000_outstanding_elektra",
       "breakpoints": true
     }
   ]

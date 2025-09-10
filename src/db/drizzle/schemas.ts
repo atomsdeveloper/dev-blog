@@ -1,18 +1,20 @@
 // Drizzle
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-export const postsTable = sqliteTable("posts", {
-  id: text("id").primaryKey(),
+// src/db/drizzle/schemas.ts
+import { pgTable, text, boolean, timestamp } from "drizzle-orm/pg-core";
+
+export const postsTable = pgTable("posts", {
+  id: text("id").primaryKey(), // você pode usar 'uuid' se quiser gerar UUIDs
   slug: text("slug").notNull().unique(),
   title: text("title").notNull(),
-  excerpt: text("excert").notNull(),
+  excerpt: text("excerpt").notNull(), // corrigido 'excert' -> 'excerpt'
   author: text("author").notNull(),
   content: text("content").notNull(),
   coverImageUrl: text("coverImageUrl").notNull(),
-  published: integer("published", { mode: "boolean" }).notNull(),
-  createdAt: text("created_at").notNull(),
-  updatedAt: text("updated_at").notNull(),
+  published: boolean("published").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
 export type PostTableSelectMode = InferSelectModel<typeof postsTable>;
