@@ -86,8 +86,6 @@ export const ImageUploader = ({
 
       setHasImage(response.url);
     });
-
-    setHasImage("");
   };
 
   return (
