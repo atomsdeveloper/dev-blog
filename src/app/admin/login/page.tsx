@@ -4,6 +4,9 @@ import { ToastifyContainer } from "../components/ToastifyContainer";
 import { ErrorMessage } from "@/app/components/ErrorMessage";
 import { Metadata } from "next";
 
+// Actions
+import { LoginAction } from "@/actions/login/login-action";
+
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
@@ -22,7 +25,7 @@ export default async function Login() {
 
   return (
     <div className="py-16 text-6xl">
-      <LoginForm />
+      <LoginForm LoginAction={LoginAction} />
       <ToastifyContainer /> {/* Para possível popup de toast se necessário*/}
     </div>
   );

@@ -19,7 +19,10 @@ type LoginActionProps = {
   error: string;
 };
 
-export async function LoginAction(state: LoginActionProps, formData: FormData) {
+export async function LoginAction(
+  state: LoginActionProps | void,
+  formData: FormData
+): Promise<LoginActionProps | void> {
   if (!ALLOW_LOGIN_VARIABLE) {
     return {
       username: "",
@@ -27,7 +30,7 @@ export async function LoginAction(state: LoginActionProps, formData: FormData) {
     };
   }
 
-  asyncDelay(3000);
+  await asyncDelay(3000);
 
   if (!(formData instanceof FormData)) {
     return {
@@ -49,8 +52,8 @@ export async function LoginAction(state: LoginActionProps, formData: FormData) {
   }
 
   // Valid datas received with pass hash.
-  const userIsValid = username === LOGIN_USER_VARIABLE || "";
-  const passIsValid = await checkPassword(pass, LOGIN_PASS_VARIABLE || "");
+  const userIsValid = username === LOGIN_USER_VARIABLE;
+  const passIsValid = await checkPassword(pass, LOGIN_PASS_VARIABLE);
 
   if (!userIsValid && !passIsValid) {
     return {

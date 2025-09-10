@@ -1,7 +1,6 @@
 "use client";
 
 // Components
-import { LoginAction } from "@/actions/login/login-action";
 import { Button } from "@/app/components/Button";
 import { InputText } from "@/app/components/InputText";
 
@@ -11,8 +10,22 @@ import { useActionState, useEffect } from "react";
 // Toast
 import { toast } from "react-toastify";
 
-export const LoginForm = () => {
-  const initialState = {
+export type LoginActionState = {
+  username?: string;
+  error: string;
+};
+
+export type LoginActionType = (
+  state: void | LoginActionState,
+  formData: FormData
+) => Promise<void | LoginActionState>;
+
+export const LoginForm = ({
+  LoginAction,
+}: {
+  LoginAction: LoginActionType;
+}) => {
+  const initialState: LoginActionState = {
     username: "",
     error: "",
   };
@@ -20,7 +33,7 @@ export const LoginForm = () => {
   const [state, action, isPending] = useActionState(LoginAction, initialState);
 
   useEffect(() => {
-    if (state.error !== "") {
+    if (state?.error !== "") {
       toast.dismiss();
       toast.error("Usuário ou Senha inválidos.");
     }
@@ -33,7 +46,7 @@ export const LoginForm = () => {
           type="text"
           labelText="Usuário"
           name="username"
-          defaultValue={state.username}
+          defaultValue={state?.username}
           disabled={isPending}
           autoComplete="username"
         />
@@ -58,7 +71,7 @@ export const LoginForm = () => {
       </form>
 
       <>
-        {!!state.error ? (
+        {!!state?.error ? (
           <span className="text-red-500 text-sm mt-4"> {state.error} </span>
         ) : (
           <span className="text-yellow-600 text-sm mt-4">
