@@ -1,13 +1,16 @@
 "use server";
 
-import {
-  IMAGE_UPLOAD_DIRECTORY_VARIABLE,
-  IMAGE_UPLOADER_MAX_SIZE_VARIABLE,
-} from "@/lib/constants";
+import { IMAGE_UPLOADER_MAX_SIZE_VARIABLE } from "@/lib/constants";
 import { checkLoginSession } from "@/lib/login/manage-login";
 
-import { mkdir, writeFile } from "fs/promises";
-import { resolve } from "path";
+// Cloudinary
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 type uploadImageActionProps = {
   url: string;
@@ -47,32 +50,26 @@ export async function uploadImageAction(
     return { ...responseReturn, error: "Imagem inválida." };
   }
 
-  const generateImageName = `${Date.now()}_${file.name}`;
+  // Covert file to base64
+  const bytes = await file.arrayBuffer();
+  const buffer = Buffer.from(bytes);
+  const base64 = buffer.toString("base64");
+  const dataURI = `data:${file.type};base64,${base64}`;
 
-  // Generate path folder.
-  const pathForUploadImage = resolve(
-    process.cwd(),
-    "public",
-    IMAGE_UPLOAD_DIRECTORY_VARIABLE
-  );
+  try {
+    const response = await cloudinary.uploader.upload(dataURI, {
+      folder: "dev-blog",
+    });
 
-  // Created path folder. C:\Users\atoms\Documents\dev-blog\public\uploads
-  await mkdir(pathForUploadImage, { recursive: true });
+    const { secure_url } = response;
+    return { ...responseReturn, url: secure_url, error: "" };
+  } catch (err) {
+    if (err instanceof Error) {
+      return { ...responseReturn, error: err.message || "Error send file" };
+    }
+  }
 
-  const fileConvertBufferBytes = await file.arrayBuffer(); // Get bytes file.
-  const buffer = Buffer.from(fileConvertBufferBytes); // Add bytes of file on buffer node.
-
-  // Generate path folder with file create.
-  const pathForUploadImagePlusFile = resolve(
-    pathForUploadImage,
-    generateImageName
-  );
-
-  // Write in folder the buffer file.
-  await writeFile(pathForUploadImagePlusFile, buffer);
-
-  // Generate URL to return client.
-  const url = `/${IMAGE_UPLOAD_DIRECTORY_VARIABLE}/${generateImageName}`;
-
-  return { ...responseReturn, url, error: "" };
+  return {
+    ...responseReturn,
+  };
 }

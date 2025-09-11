@@ -127,7 +127,6 @@ export const ImageUploader = ({
           </div>
 
           <Image
-            loader={({ src }) => src}
             src={hasImage}
             aria-description="Preview da imagem enviada para o servidor."
             alt="Imagem."
