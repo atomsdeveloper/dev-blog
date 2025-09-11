@@ -3,7 +3,6 @@
 // Libs
 import { IMAGE_UPLOADER_MAX_SIZE_VARIABLE } from "../../lib/constants";
 import { checkLoginSession } from "../../lib/login/manage-login";
-import cloudinary from "../../lib/cloudinary";
 
 export type CloudinaryUploadResponseType = {
   secure_url: string;
@@ -21,6 +20,8 @@ type uploadImageActionProps = {
 export async function uploadImageAction(
   formData: FormData
 ): Promise<uploadImageActionProps> {
+  const cloudinary = await import("cloudinary").then((m) => m.v2);
+
   const hasUserLogged = await checkLoginSession();
 
   const responseReturn = { url: "", error: "" };
@@ -57,6 +58,13 @@ export async function uploadImageAction(
   const dataURI = `data:${file.type};base64,${base64}`;
 
   try {
+    cloudinary.config({
+      cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
+      api_key: process.env.CLOUDINARY_API_KEY!,
+      api_secret: process.env.CLOUDINARY_API_SECRET!,
+      secure: true,
+    });
+
     const response: CloudinaryUploadResponseType =
       await cloudinary.uploader.upload(dataURI, {
         folder: "dev-blog",

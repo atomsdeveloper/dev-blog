@@ -15,6 +15,7 @@ import { useRef, useState, useTransition } from "react";
 // Toast
 import { toast } from "react-toastify";
 
+// Component Cloudinary
 import { CldImage } from "next-cloudinary";
 
 type ImageUploaderProps = {
