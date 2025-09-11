@@ -1,5 +1,5 @@
-// Cloudinary
-import { v2 as cloudinary } from "cloudinary";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const cloudinary = require("cloudinary").v2;
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
