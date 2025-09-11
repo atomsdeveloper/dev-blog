@@ -62,13 +62,21 @@ export async function uploadImageAction(
         folder: "dev-blog",
       });
 
-    const { secure_url } = response;
-    return { ...responseReturn, url: secure_url, error: "" };
-  } catch (err) {
+    return { ...responseReturn, url: response.secure_url, error: "" };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    if (err?.error?.message) {
+      return {
+        url: "",
+        error: `Cloudinary: ${err.error.message} (code: ${
+          err.error.http_code ?? "?"
+        })`,
+      };
+    }
+
     return {
-      error:
-        err instanceof Error ? err.message + "\n" + err : "Error send file",
       url: "",
+      error: err instanceof Error ? err.message : String(err),
     };
   }
 }

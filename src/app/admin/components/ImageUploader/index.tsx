@@ -15,8 +15,7 @@ import { useRef, useState, useTransition } from "react";
 // Toast
 import { toast } from "react-toastify";
 
-// Component Cloudinary
-import { CldImage } from "next-cloudinary";
+import Image from "next/image";
 
 type ImageUploaderProps = {
   disabled?: boolean;
@@ -89,8 +88,6 @@ export const ImageUploader = ({
     });
   };
 
-  console.log(hasImage);
-
   return (
     <div className="flex flex-col gap-2 text-sm ">
       <Button
@@ -127,7 +124,7 @@ export const ImageUploader = ({
             </p>
           </div>
 
-          <CldImage
+          <Image
             src={hasImage}
             aria-description="Preview da imagem enviada para o servidor."
             alt="Imagem."
