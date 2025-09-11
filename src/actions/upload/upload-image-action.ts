@@ -1,9 +1,8 @@
 "use server";
 
-import { IMAGE_UPLOADER_MAX_SIZE_VARIABLE } from "@/lib/constants";
-import { checkLoginSession } from "@/lib/login/manage-login";
-
-// Cloudnary
+// Libs
+import { IMAGE_UPLOADER_MAX_SIZE_VARIABLE } from "../../lib/constants";
+import { checkLoginSession } from "../../lib/login/manage-login";
 import cloudinary from "../../lib/cloudinary";
 
 export type CloudinaryUploadResponseType = {
