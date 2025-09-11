@@ -21,7 +21,7 @@ type uploadImageActionProps = {
 export async function uploadImageAction(
   formData: FormData
 ): Promise<uploadImageActionProps> {
-  const hasUserLogged = checkLoginSession();
+  const hasUserLogged = await checkLoginSession();
 
   const responseReturn = { url: "", error: "" };
 
@@ -66,7 +66,8 @@ export async function uploadImageAction(
     return { ...responseReturn, url: secure_url, error: "" };
   } catch (err) {
     return {
-      error: err instanceof Error ? err.message : "Error send file",
+      error:
+        err instanceof Error ? err.message + "\n" + err : "Error send file",
       url: "",
     };
   }
