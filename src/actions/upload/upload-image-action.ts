@@ -3,14 +3,23 @@
 import { IMAGE_UPLOADER_MAX_SIZE_VARIABLE } from "@/lib/constants";
 import { checkLoginSession } from "@/lib/login/manage-login";
 
+// Cloudnary
 // Cloudinary
 import { v2 as cloudinary } from "cloudinary";
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
+  api_key: process.env.CLOUDINARY_API_KEY!,
+  api_secret: process.env.CLOUDINARY_API_SECRET!,
 });
+
+export type CloudinaryUploadResponseType = {
+  secure_url: string;
+  public_id: string;
+  format: string;
+  width: number;
+  height: number;
+};
 
 type uploadImageActionProps = {
   url: string;
@@ -52,24 +61,21 @@ export async function uploadImageAction(
 
   // Covert file to base64
   const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
-  const base64 = buffer.toString("base64");
+  const base64 = Buffer.from(bytes).toString("base64");
   const dataURI = `data:${file.type};base64,${base64}`;
 
   try {
-    const response = await cloudinary.uploader.upload(dataURI, {
-      folder: "dev-blog",
-    });
+    const response: CloudinaryUploadResponseType =
+      await cloudinary.uploader.upload(dataURI, {
+        folder: "dev-blog",
+      });
 
     const { secure_url } = response;
     return { ...responseReturn, url: secure_url, error: "" };
   } catch (err) {
-    if (err instanceof Error) {
-      return { ...responseReturn, error: err.message || "Error send file" };
-    }
+    return {
+      error: err instanceof Error ? err.message : "Error send file",
+      url: "",
+    };
   }
-
-  return {
-    ...responseReturn,
-  };
 }

@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 };
 
 // Action
-import { createdPostAction } from "@/actions/post/created-post-action";
-import { uploadImageAction } from "@/actions/upload/upload-image-action";
+import { createdPostAction } from "../../../../actions/post/created-post-action";
+import { uploadImageAction } from "../../../../actions/upload/upload-image-action";
 
 export const dynamic = "force-dynamic";
 

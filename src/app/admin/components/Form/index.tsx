@@ -73,8 +73,7 @@ export function Form(props: FormProps) {
     postId: hasPostId,
   };
 
-  const noopAction = async (state: CreateActionProps, formData: FormData) =>
-    state;
+  const noopAction = async (state: CreateActionProps) => state;
 
   const actionMode =
     mode === "updated"

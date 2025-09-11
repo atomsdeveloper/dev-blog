@@ -15,8 +15,8 @@ import { useRef, useState, useTransition } from "react";
 // Toast
 import { toast } from "react-toastify";
 
-// Next
-import Image from "next/image";
+// Component Cloudinary
+import { CldImage } from "next-cloudinary";
 
 type ImageUploaderProps = {
   disabled?: boolean;
@@ -80,6 +80,7 @@ export const ImageUploader = ({
       if (response.error && response.url === "") {
         toast.error(response.error);
         setHasImage("");
+        return;
       }
 
       toast.success(`Imagem enviada com sucesso.`);
@@ -126,7 +127,7 @@ export const ImageUploader = ({
             </p>
           </div>
 
-          <Image
+          <CldImage
             src={hasImage}
             aria-description="Preview da imagem enviada para o servidor."
             alt="Imagem."
